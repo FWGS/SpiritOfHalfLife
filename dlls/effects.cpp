@@ -4000,7 +4000,7 @@ void CEnvDLight::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE us
 	{
 		if (pev->spawnflags & SF_DLIGHT_ONLYONCE)
 		{
-			SetThink( SUB_Remove );
+			SetThink( &CEnvDLight::SUB_Remove );
 			SetNextThink( 0 );
 		}
 	}
@@ -4036,7 +4036,7 @@ void CEnvDLight::Think( void )
 
 	if (pev->spawnflags & SF_DLIGHT_ONLYONCE)
 	{
-		SetThink( SUB_Remove );
+		SetThink( &CEnvDLight::SUB_Remove );
 		SetNextThink( 0 );
 	}
 }
