@@ -92,7 +92,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/mp5.o \
 	$(HLDLL_OBJ_DIR)/nihilanth.o \
 	$(HLDLL_OBJ_DIR)/nodes.o \
-	$(HLDLL_OBJ_DIR)/observer.o \
+#	$(HLDLL_OBJ_DIR)/observer.o \
 	$(HLDLL_OBJ_DIR)/osprey.o \
 	$(HLDLL_OBJ_DIR)/pathcorner.o \
 	$(HLDLL_OBJ_DIR)/plane.o \
@@ -130,7 +130,7 @@ HLDLL_OBJS = \
 	$(HLDLL_OBJ_DIR)/zombie.o
 
 HLWPN_OBJS = \
-	$(HLWPN_OBJ_DIR)/hl_wpn_glock.o
+#	$(HLWPN_OBJ_DIR)/hl_wpn_glock.o
 
 PM_OBJS = \
 	$(PM_OBJ_DIR)/pm_shared.o \
