@@ -2464,7 +2464,7 @@ void CFuncTrackChange :: UpdateTrain( Vector &dest )
 	float time;
 	Vector vel = pev->velocity;
 
-	if (m_pfnThink == LinearMoveNow)
+	if (m_pfnThink == &LinearMoveNow)
 	{
 		// we're going to do a LinearMoveNow: calculate the velocity it'll have
 		Vector vecDest;
