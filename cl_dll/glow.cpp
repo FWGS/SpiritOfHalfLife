@@ -25,15 +25,23 @@ Merged and given some nicer CVARs by FragBait0, tlevi@tpg.com.au
 #include "triangleapi.h"
 #include "particlemgr.h"
 //End tri.cpp
-
+#ifdef _WIN32
 #include <windows.h>
-#include <gl/gl.h>
-#include <gl/glext.h>
-#include <cg/cg.h>
-#include <cg/cgGL.h>
+#else
+#include <SDL2/SDL_messagebox.h>
+#endif
+
+#include <GL/gl.h>
+#include <GL/glext.h>
+#include <Cg/cg.h>
+#include <Cg/cgGL.h>
 #include "r_studioint.h"
 
+#ifdef _WIN32
 #define DLLEXPORT __declspec( dllexport )
+#else
+#define DLLEXPORT __attribute__((visibilty("default")))
+#endif
 #define GL_TEXTURE_RECTANGLENV 0x84F5
 
 // START glow (shader+lowend) -- FragBait0
@@ -42,8 +50,8 @@ extern engine_studio_api_t IEngineStudio;
 bool bGlowShaderInitialised = false;
 bool bGlowLowEndInitialised = false;
 
-PFNGLACTIVETEXTUREARBPROC glActiveTextureARB = NULL;
-PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB = NULL;
+void (*pglActiveTextureARB)(GLenum tex) = NULL;
+void (*pglMultiTexCoord2fARB)(GLenum target, GLfloat s, GLfloat t) = NULL;
 
 CGcontext g_cgContext;
 CGprofile g_cgVertProfile;
@@ -141,7 +149,11 @@ inline bool LoadProgram(CGprogram* pDest, CGprofile profile, const char* szFile)
 
      *pDest = cgCreateProgramFromFile(g_cgContext, CG_SOURCE, file, profile, "main", 0);
      if (!(*pDest)) {
+#ifdef _WIN32
           MessageBox(NULL, cgGetErrorString(cgGetError()), NULL, NULL);
+#else
+          SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "CG", cgGetErrorString(cgGetError()), NULL);
+#endif
           return false;
      }
 
@@ -154,8 +166,11 @@ void InitScreenGlowShader(void)
 {
 	 bGlowShaderInitialised = false;
      // OPENGL EXTENSION LOADING
-     glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress("glActiveTextureARB");
-
+#ifdef _WIN32
+     pglActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress("glActiveTextureARB");
+#else
+     pglActiveTextureARB = SDL_GL_GetProcAddress("glActiveTextureARB");
+#endif
      // TEXTURE CREATION
      unsigned char* pBlankTex = new unsigned char[ScreenWidth*ScreenHeight*3];
      memset(pBlankTex, 0, ScreenWidth*ScreenHeight*3);
@@ -177,14 +192,22 @@ void InitScreenGlowShader(void)
      // CG INITIALISATION
      g_cgContext = cgCreateContext();
      if (!g_cgContext) {
+#ifdef _WIN32
           MessageBox(NULL, "Couldn't make Cg context", NULL, NULL);
+#else
+          SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "CG", "Couldn't make Cg context", NULL);
+#endif
           return;
      }
 
      // VERTEX PROFILE
      g_cgVertProfile = cgGLGetLatestProfile(CG_GL_VERTEX);
      if (g_cgVertProfile == CG_PROFILE_UNKNOWN) {
+#ifdef _WIN32
           MessageBox(NULL, "Couldn't fetch valid VP profile", NULL, NULL);
+#else
+          SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "CG", "Couldn't fetch valid VP profile", NULL);
+#endif
           return;
      }
 
@@ -212,7 +235,11 @@ void InitScreenGlowShader(void)
      // FRAGMENT PROFILE
      g_cgFragProfile = cgGLGetLatestProfile(CG_GL_FRAGMENT);
      if (g_cgFragProfile == CG_PROFILE_UNKNOWN) {
-          MessageBox(NULL, "Couldn't fetch valid FP profile", NULL, NULL);
+#ifdef _WIN32
+          MessageBox(NULL, "Couldn't fetch valid VP profile", NULL, NULL);
+#else
+          SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "CG", "Couldn't fetch valid VP profile", NULL);
+#endif
           return;
      }
 
@@ -236,19 +263,19 @@ void DoBlur(unsigned int uiSrcTex, unsigned int uiTargetTex, int srcTexWidth, in
 	cgGLBindProgram(g_cgVP_GlowBlur);
 	cgGLBindProgram(g_cgFP_GlowBlur);
 
-	glActiveTextureARB(GL_TEXTURE0_ARB);
+	pglActiveTextureARB(GL_TEXTURE0_ARB);
 	glEnable(GL_TEXTURE_RECTANGLE_NV);
 	glBindTexture(GL_TEXTURE_RECTANGLE_NV, uiSrcTex);
 
-	glActiveTextureARB(GL_TEXTURE1_ARB);
+	pglActiveTextureARB(GL_TEXTURE1_ARB);
 	glEnable(GL_TEXTURE_RECTANGLE_NV);
 	glBindTexture(GL_TEXTURE_RECTANGLE_NV, uiSrcTex);
 
-	glActiveTextureARB(GL_TEXTURE2_ARB);
+	pglActiveTextureARB(GL_TEXTURE2_ARB);
 	glEnable(GL_TEXTURE_RECTANGLE_NV);
 	glBindTexture(GL_TEXTURE_RECTANGLE_NV, uiSrcTex);
 
-	glActiveTextureARB(GL_TEXTURE3_ARB);
+	pglActiveTextureARB(GL_TEXTURE3_ARB);
 	glEnable(GL_TEXTURE_RECTANGLE_NV);
 	glBindTexture(GL_TEXTURE_RECTANGLE_NV, uiSrcTex);
 
@@ -287,7 +314,7 @@ void RenderScreenGlowShader(void)
 	}
 
     // STEP 1: Grab the screen and put it into a texture
-    glActiveTextureARB(GL_TEXTURE0_ARB);
+    pglActiveTextureARB(GL_TEXTURE0_ARB);
     glEnable(GL_TEXTURE_RECTANGLE_NV);
 
     glBindTexture(GL_TEXTURE_RECTANGLE_NV, g_uiSceneTex);
@@ -316,7 +343,7 @@ void RenderScreenGlowShader(void)
 
     // STEP 4: Render the current scene texture to a new, lower-res texture, darkening non-bright areas of the scene
     glViewport(0, 0, ScreenWidth/4, ScreenHeight/4);
-    glActiveTextureARB(GL_TEXTURE0_ARB);
+    pglActiveTextureARB(GL_TEXTURE0_ARB);
 
     glBindTexture(GL_TEXTURE_RECTANGLE_NV, g_uiSceneTex);
 
@@ -344,11 +371,11 @@ void RenderScreenGlowShader(void)
 
     cgGLSetStateMatrixParameter(g_cgpVP2_ModelViewMatrix, CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
 
-    glActiveTextureARB(GL_TEXTURE0_ARB);
+    pglActiveTextureARB(GL_TEXTURE0_ARB);
     glEnable(GL_TEXTURE_RECTANGLE_NV);
     glBindTexture(GL_TEXTURE_RECTANGLE_NV, g_uiSceneTex);
 
-    glActiveTextureARB(GL_TEXTURE1_ARB);
+    pglActiveTextureARB(GL_TEXTURE1_ARB);
     glEnable(GL_TEXTURE_RECTANGLE_NV);
     glBindTexture(GL_TEXTURE_RECTANGLE_NV, g_uiBlurTex);
 
@@ -367,19 +394,19 @@ void RenderScreenGlowShader(void)
     cgGLDisableProfile(g_cgVertProfile);
     cgGLDisableProfile(g_cgFragProfile);
 
-    glActiveTextureARB(GL_TEXTURE0_ARB);
+    pglActiveTextureARB(GL_TEXTURE0_ARB);
     glDisable(GL_TEXTURE_RECTANGLE_NV);
 
-    glActiveTextureARB(GL_TEXTURE1_ARB);
+    pglActiveTextureARB(GL_TEXTURE1_ARB);
     glDisable(GL_TEXTURE_RECTANGLE_NV);
 
-    glActiveTextureARB(GL_TEXTURE2_ARB);
+    pglActiveTextureARB(GL_TEXTURE2_ARB);
     glDisable(GL_TEXTURE_RECTANGLE_NV);
 
-    glActiveTextureARB(GL_TEXTURE3_ARB);
+    pglActiveTextureARB(GL_TEXTURE3_ARB);
     glDisable(GL_TEXTURE_RECTANGLE_NV);
 
-    glActiveTextureARB(GL_TEXTURE0_ARB);
+    pglActiveTextureARB(GL_TEXTURE0_ARB);
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 //END shader glow effect --FragBait0
