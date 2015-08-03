@@ -21,7 +21,7 @@
 #include "hud.h"
 #include "cl_util.h"
 #include "netadr.h"
-#include "vgui_schememanager.h"
+//#include "VGUI_SchemeManager.h"
 #include "mp3.h" //AJH - Killars MP3player
 
 extern "C"
@@ -34,8 +34,11 @@ extern "C"
 #include "vgui_int.h"
 #include "interface.h"
 
+#ifdef _WIN32
 #define DLLEXPORT __declspec( dllexport )
-
+#else
+#define DLLEXPORT __attribute__((visibilty("default")))
+#endif
 
 cl_enginefunc_t gEngfuncs;
 CHud gHUD;

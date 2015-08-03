@@ -18,7 +18,11 @@
 #include "demo_api.h"
 #include <memory.h>
 
+#ifdef _WIN32
 #define DLLEXPORT __declspec( dllexport )
+#else
+#define DLLEXPORT __attribute__((visibilty("default")))
+#endif
 
 int g_demosniper = 0;
 int g_demosniperdamage = 0;

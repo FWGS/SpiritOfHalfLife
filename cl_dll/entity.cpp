@@ -20,7 +20,12 @@
 #include "pmtrace.h"	
 #include "pm_shared.h"
 
+#ifdef _WIN32
 #define DLLEXPORT __declspec( dllexport )
+#else
+#define DLLEXPORT __attribute__((visibilty("default")))
+#endif
+
 
 void Game_AddObjects( void );
 
