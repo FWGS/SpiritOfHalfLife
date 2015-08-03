@@ -34,64 +34,69 @@ DO_PM_SHARED_CC=$(CC) $(INCLUDEDIRS)  $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
 #####################################################################
 
 HL1_OBJS = \
-	$(HL1_OBJ_DIR)/hud_spectator.o \
-	$(HL1_OBJ_DIR)/ev_hldm.o \
-	$(HL1_OBJ_DIR)/hl/hl_baseentity.o \
-	$(HL1_OBJ_DIR)/hl/hl_events.o \
-	$(HL1_OBJ_DIR)/hl/hl_objects.o \
-	$(HL1_OBJ_DIR)/hl/hl_weapons.o \
-	$(HL1_OBJ_DIR)/hud.o \
-	$(HL1_OBJ_DIR)/inputw32.o \
-	$(HL1_OBJ_DIR)/ammo.o \
-	$(HL1_OBJ_DIR)/ammo_secondary.o \
-	$(HL1_OBJ_DIR)/ammohistory.o \
-	$(HL1_OBJ_DIR)/battery.o \
-	$(HL1_OBJ_DIR)/cdll_int.o \
-	$(HL1_OBJ_DIR)/com_weapons.o \
-	$(HL1_OBJ_DIR)/death.o \
-	$(HL1_OBJ_DIR)/demo.o \
-	$(HL1_OBJ_DIR)/entity.o \
-	$(HL1_OBJ_DIR)/ev_common.o \
-	$(HL1_OBJ_DIR)/events.o \
-	$(HL1_OBJ_DIR)/flashlight.o \
-	$(HL1_OBJ_DIR)/GameStudioModelRenderer.o \
-	$(HL1_OBJ_DIR)/geiger.o \
-	$(HL1_OBJ_DIR)/health.o \
-	$(HL1_OBJ_DIR)/hud_bench.o \
-	$(HL1_OBJ_DIR)/hud_benchtrace.o \
-	$(HL1_OBJ_DIR)/hud_msg.o \
-	$(HL1_OBJ_DIR)/hud_redraw.o \
-	$(HL1_OBJ_DIR)/hud_update.o \
-	$(HL1_OBJ_DIR)/in_camera.o \
-	$(HL1_OBJ_DIR)/input.o \
-	$(HL1_OBJ_DIR)/interpolation.o \
-	$(HL1_OBJ_DIR)/menu.o \
-	$(HL1_OBJ_DIR)/message.o \
-	$(HL1_OBJ_DIR)/saytext.o \
-	$(HL1_OBJ_DIR)/status_icons.o \
-	$(HL1_OBJ_DIR)/statusbar.o \
-	$(HL1_OBJ_DIR)/studio_util.o \
-	$(HL1_OBJ_DIR)/StudioModelRenderer.o \
-	$(HL1_OBJ_DIR)/text_message.o \
-	$(HL1_OBJ_DIR)/train.o \
-	$(HL1_OBJ_DIR)/tri.o \
-	$(HL1_OBJ_DIR)/util.o \
-	$(HL1_OBJ_DIR)/view.o \
-	$(HL1_OBJ_DIR)/vgui_int.o \
-	$(HL1_OBJ_DIR)/vgui_ClassMenu.o \
-	$(HL1_OBJ_DIR)/vgui_ConsolePanel.o \
-	$(HL1_OBJ_DIR)/vgui_ControlConfigPanel.o \
-	$(HL1_OBJ_DIR)/vgui_CustomObjects.o \
-	$(HL1_OBJ_DIR)/vgui_MOTDWindow.o \
-	$(HL1_OBJ_DIR)/vgui_SchemeManager.o \
-	$(HL1_OBJ_DIR)/vgui_ScorePanel.o \
-	$(HL1_OBJ_DIR)/vgui_ServerBrowser.o \
-	$(HL1_OBJ_DIR)/vgui_TeamFortressViewport.o \
-	$(HL1_OBJ_DIR)/vgui_SpectatorPanel.o \
-	$(HL1_OBJ_DIR)/vgui_teammenu.o \
-	$(HL1_OBJ_DIR)/voice_status.o \
-	$(HL1_OBJ_DIR)/hud_servers.o \
-	
+$(HL1_OBJ_DIR)/ammo.o \
+$(HL1_OBJ_DIR)/ammohistory.o \
+$(HL1_OBJ_DIR)/ammo_secondary.o \
+$(HL1_OBJ_DIR)/battery.o \
+$(HL1_OBJ_DIR)/cdll_int.o \
+$(HL1_OBJ_DIR)/com_weapons.o \
+$(HL1_OBJ_DIR)/CustomMenu.o \
+$(HL1_OBJ_DIR)/death.o \
+$(HL1_OBJ_DIR)/demo.o \
+$(HL1_OBJ_DIR)/entity.o \
+$(HL1_OBJ_DIR)/ev_common.o \
+$(HL1_OBJ_DIR)/events.o \
+$(HL1_OBJ_DIR)/ev_hldm.o \
+$(HL1_OBJ_DIR)/flashlight.o \
+$(HL1_OBJ_DIR)/GameStudioModelRenderer.o \
+$(HL1_OBJ_DIR)/geiger.o \
+$(HL1_OBJ_DIR)/glow.o \
+$(HL1_OBJ_DIR)/health.o \
+$(HL1_OBJ_DIR)/hl/hl_baseentity.o \
+$(HL1_OBJ_DIR)/hl/hl_events.o \
+$(HL1_OBJ_DIR)/hl/hl_objects.o \
+$(HL1_OBJ_DIR)/hl/hl_weapons.o \
+$(HL1_OBJ_DIR)/hud.o \
+$(HL1_OBJ_DIR)/hud_msg.o \
+$(HL1_OBJ_DIR)/hud_redraw.o \
+$(HL1_OBJ_DIR)/hud_servers.o \
+$(HL1_OBJ_DIR)/hud_spectator.o \
+$(HL1_OBJ_DIR)/hud_update.o \
+$(HL1_OBJ_DIR)/in_camera.o \
+$(HL1_OBJ_DIR)/input.o \
+$(HL1_OBJ_DIR)/inputw32.o \
+$(HL1_OBJ_DIR)/menu.o \
+$(HL1_OBJ_DIR)/message.o \
+$(HL1_OBJ_DIR)/mp3.o \
+$(HL1_OBJ_DIR)/overview.o \
+$(HL1_OBJ_DIR)/parsemsg.o \
+$(HL1_OBJ_DIR)/particlemgr.o \
+$(HL1_OBJ_DIR)/particlemsg.o \
+$(HL1_OBJ_DIR)/particlesys.o \
+$(HL1_OBJ_DIR)/rain.o \
+$(HL1_OBJ_DIR)/saytext.o \
+$(HL1_OBJ_DIR)/soundsystem.o \
+$(HL1_OBJ_DIR)/statusbar.o \
+$(HL1_OBJ_DIR)/status_icons.o \
+$(HL1_OBJ_DIR)/StudioModelRenderer.o \
+$(HL1_OBJ_DIR)/studio_util.o \
+$(HL1_OBJ_DIR)/text_message.o \
+$(HL1_OBJ_DIR)/train.o \
+$(HL1_OBJ_DIR)/tri.o \
+$(HL1_OBJ_DIR)/util.o \
+$(HL1_OBJ_DIR)/vgui_ClassMenu.o \
+$(HL1_OBJ_DIR)/vgui_ConsolePanel.o \
+$(HL1_OBJ_DIR)/vgui_ControlConfigPanel.o \
+$(HL1_OBJ_DIR)/vgui_CustomObjects.o \
+$(HL1_OBJ_DIR)/vgui_int.o \
+$(HL1_OBJ_DIR)/vgui_MOTDWindow.o \
+$(HL1_OBJ_DIR)/vgui_SchemeManager.o \
+$(HL1_OBJ_DIR)/vgui_ScorePanel.o \
+$(HL1_OBJ_DIR)/vgui_ServerBrowser.o \
+$(HL1_OBJ_DIR)/vgui_SpectatorPanel.o \
+$(HL1_OBJ_DIR)/vgui_TeamFortressViewport.o \
+$(HL1_OBJ_DIR)/vgui_teammenu.o \
+$(HL1_OBJ_DIR)/view.o \
 
 DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/crossbow.o \
@@ -107,11 +112,9 @@ DLL_OBJS = \
 	$(HL1_SERVER_OBJ_DIR)/shotgun.o \
 	$(HL1_SERVER_OBJ_DIR)/squeakgrenade.o \
 	$(HL1_SERVER_OBJ_DIR)/tripmine.o \
-	$(HL1_SERVER_OBJ_DIR)/wpn_shared/hl_wpn_glock.o \
 
 
-PUBLIC_OBJS = \
-	$(PUBLIC_OBJ_DIR)/interface.o \
+PUBLIC_OBJS = 
 
 COMMON_OBJS = \
 	$(COMMON_OBJ_DIR)/parsemsg.o \
