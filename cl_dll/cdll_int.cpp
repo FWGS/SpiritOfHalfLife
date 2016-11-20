@@ -31,7 +31,7 @@ extern "C"
 
 #include <string.h>
 #include "hud_servers.h"
-#include "vgui_int.h"
+//#include "vgui_int.h"
 #include "interface.h"
 
 #ifdef _WIN32
@@ -44,7 +44,7 @@ cl_enginefunc_t gEngfuncs;
 CHud gHUD;
 CMP3 gMP3; //AJH - Killars MP3player
 
-TeamFortressViewport *gViewPort = NULL;
+//TeamFortressViewport *gViewPort = NULL;
 
 void InitInput (void);
 void EV_HookEvents( void );
@@ -179,7 +179,7 @@ int DLLEXPORT HUD_VidInit( void )
 {
 	gHUD.VidInit();
 
-	VGui_Startup();
+//	VGui_Startup();
 
 //LRCTEMP 1.8	if (CVAR_GET_FLOAT("r_glow") != 0)	 //check the cvar for the glow is on.//AJH Modified to include glow mode (1&2)
 //LRCTEMP 1.8		InitScreenGlow(); // glow effect --FragBait0
@@ -200,7 +200,7 @@ void DLLEXPORT HUD_Init( void )
 {
 	InitInput();
 	gHUD.Init();
-	Scheme_Init();
+//	Scheme_Init();
 }
 
 
@@ -267,9 +267,9 @@ Called by engine every frame that client .dll is loaded
 
 void DLLEXPORT HUD_Frame( double time )
 {
-	ServersThink( time );
+	//ServersThink( time );
 
-	GetClientVoiceMgr()->Frame(time);
+	//GetClientVoiceMgr()->Frame(time);
 }
 
 
@@ -283,7 +283,7 @@ Called when a player starts or stops talking.
 
 void DLLEXPORT HUD_VoiceStatus(int entindex, qboolean bTalking)
 {
-	GetClientVoiceMgr()->UpdateSpeakerStatus(entindex, bTalking);
+	//GetClientVoiceMgr()->UpdateSpeakerStatus(entindex, bTalking);
 }
 
 /*

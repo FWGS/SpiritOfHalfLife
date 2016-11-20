@@ -27,7 +27,7 @@ extern "C"
 #include <string.h>
 #include <ctype.h>
 
-#include "vgui_TeamFortressViewport.h"
+//#include "vgui_TeamFortressViewport.h"
 
 
 extern "C" 
@@ -381,9 +381,8 @@ Return 1 to allow engine to process the key, otherwise, act on it as needed
 */
 int DLLEXPORT HUD_Key_Event( int down, int keynum, const char *pszCurrentBinding )
 {
-	if (gViewPort)
-		return gViewPort->KeyInput(down, keynum, pszCurrentBinding);
-	
+	//if (gViewPort)
+	//	return gViewPort->KeyInput(down, keynum, pszCurrentBinding);
 	return 1;
 }
 
@@ -522,56 +521,56 @@ void IN_Impulse (void)
 void IN_ScoreDown(void)
 {
 	KeyDown(&in_score);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->ShowScoreBoard();
-	}
+	}*/
 }
 
 void IN_ScoreUp(void)
 {
 	KeyUp(&in_score);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->HideScoreBoard();
-	}
+	}*/
 }
 void IN_HUDDown(void)	//AJH
 {
 	KeyDown(&in_customhud);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		//gViewPort->ShowVGUIMenu(MENU_CUSTOM);
 		gViewPort->ShowCommandMenu( gViewPort->m_StandardMenu );
-	}
+	}*/
 }
 
 void IN_HUDUp(void)	//AJH
 {
 	KeyUp(&in_customhud);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		//gViewPort->HideVGUIMenu();
 		gViewPort->HideCommandMenu();
-	}
+	}*/
 }
 
 void IN_BriefingDown(void)	//AJH
 {
 	KeyDown(&in_briefing);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->ShowVGUIMenu(MENU_MAPBRIEFING);
-	}
+	}*/
 }
 
 void IN_BriefingUp(void)	//AJH
 {
 	KeyUp(&in_briefing);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->HideVGUIMenu();
-	}
+	}*/
 }
 void IN_MLookUp (void)
 {
@@ -776,8 +775,8 @@ void DLLEXPORT CL_CreateMove ( float frametime, struct usercmd_s *cmd, int activ
 	cmd->buttons = CL_ButtonBits( 1 );
 
 	// If they're in a modal dialog, ignore the attack button.
-	if(GetClientVoiceMgr()->IsInSquelchMode())
-		cmd->buttons &= ~IN_ATTACK;
+	//if(GetClientVoiceMgr()->IsInSquelchMode())
+	//	cmd->buttons &= ~IN_ATTACK;
 
 	// Using joystick?
 	if ( in_joystick->value )
