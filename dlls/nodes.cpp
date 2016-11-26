@@ -43,7 +43,7 @@ CGraph	WorldGraph;
 
 LINK_ENTITY_TO_CLASS( info_node, CNodeEnt );
 LINK_ENTITY_TO_CLASS( info_node_air, CNodeEnt );
-#ifdef __linux__
+#ifndef _WIN32
 #include <unistd.h>
 #define CreateDirectory(p, n) mkdir(p, 0777)
 #endif
