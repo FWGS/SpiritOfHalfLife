@@ -134,7 +134,7 @@ int CHudSayText :: Draw( float flTime )
 				// draw the first x characters in the player color
 				strncpy( buf, g_szLineBuffer[i], min(g_iNameLengths[i], MAX_PLAYER_NAME_LENGTH+32) );
 				buf[ min(g_iNameLengths[i], MAX_PLAYER_NAME_LENGTH+31) ] = 0;
-				gEngfuncs.pfnDrawSetTextColor( g_pflNameColors[i][0], g_pflNameColors[i][1], g_pflNameColors[i][2] );
+				DrawSetTextColor( g_pflNameColors[i][0], g_pflNameColors[i][1], g_pflNameColors[i][2] );
 				int x = DrawConsoleString( LINE_START, y, buf );
 
 				// color is reset after each string draw
@@ -166,6 +166,7 @@ int CHudSayText :: MsgFunc_SayText( const char *pszName, int iSize, void *pbuf )
 
 void CHudSayText :: SayTextPrint( const char *pszBuf, int iBufSize, int clientIndex )
 {
+	int i;
 	/*if ( gViewPort && gViewPort->AllowedToPrintText() == FALSE )
 	{
 		// Print it straight to the console
@@ -174,7 +175,7 @@ void CHudSayText :: SayTextPrint( const char *pszBuf, int iBufSize, int clientIn
 	}*/
 
 	// find an empty string slot
-	for ( int i = 0; i < MAX_LINES; i++ )
+	for ( i = 0; i < MAX_LINES; i++ )
 	{
 		if ( ! *g_szLineBuffer[i] )
 			break;

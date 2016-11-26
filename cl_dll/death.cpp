@@ -126,7 +126,7 @@ int CHudDeathNotice :: Draw( float flTime )
 
 				// Draw killers name
 				if ( rgDeathNoticeList[i].KillerColor )
-					gEngfuncs.pfnDrawSetTextColor( rgDeathNoticeList[i].KillerColor[0], rgDeathNoticeList[i].KillerColor[1], rgDeathNoticeList[i].KillerColor[2] );
+					DrawSetTextColor( rgDeathNoticeList[i].KillerColor[0], rgDeathNoticeList[i].KillerColor[1], rgDeathNoticeList[i].KillerColor[2] );
 				x = 5 + DrawConsoleString( x, y, rgDeathNoticeList[i].szKiller );
 			}
 
@@ -146,7 +146,7 @@ int CHudDeathNotice :: Draw( float flTime )
 			if (rgDeathNoticeList[i].iNonPlayerKill == FALSE)
 			{
 				if ( rgDeathNoticeList[i].VictimColor )
-					gEngfuncs.pfnDrawSetTextColor( rgDeathNoticeList[i].VictimColor[0], rgDeathNoticeList[i].VictimColor[1], rgDeathNoticeList[i].VictimColor[2] );
+					DrawSetTextColor( rgDeathNoticeList[i].VictimColor[0], rgDeathNoticeList[i].VictimColor[1], rgDeathNoticeList[i].VictimColor[2] );
 				x = DrawConsoleString( x, y, rgDeathNoticeList[i].szVictim );
 			}
 		}
@@ -158,6 +158,7 @@ int CHudDeathNotice :: Draw( float flTime )
 // This message handler may be better off elsewhere
 int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *pbuf )
 {
+	int i;
 	m_iFlags |= HUD_ACTIVE;
 
 	BEGIN_READ( pbuf, iSize );
@@ -191,7 +192,7 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 
 	gHUD.m_Spectator.DeathMessage(victim);
 
-	for ( int i = 0; i < MAX_DEATHNOTICES; i++ )
+	for ( i = 0; i < MAX_DEATHNOTICES; i++ )
 	{
 		if ( rgDeathNoticeList[i].iId == 0 )
 			break;
@@ -204,6 +205,8 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 
 	//if (gViewPort)
 	//	gViewPort->GetAllPlayersInfo();
+
+	gHUD.m_Scoreboard.GetAllPlayersInfo();
 
 	// Get the Killer's name
 	char *killer_name = g_PlayerInfoList[ killer ].name;

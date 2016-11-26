@@ -21,9 +21,9 @@
 #include "com_model.h"
 #include "studio_util.h"
 
-#include "glInclude.h"
+//#include "glInclude.h"
 
-#define DLLEXPORT __declspec( dllexport )
+#define DLLEXPORT
 
 extern "C"
 {
@@ -230,11 +230,11 @@ void RenderFog ( void )
 
 void ClearToFogColor( void )
 {
-	if ( g_fog.startDist > 0 && g_fog.endDist > 0 )
+	/*if ( g_fog.startDist > 0 && g_fog.endDist > 0 )
 	{
 		glClearColor( g_fog.fogColor[0], g_fog.fogColor[1], g_fog.fogColor[2], 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT );
-	}
+	}*/
 }
 
 /*

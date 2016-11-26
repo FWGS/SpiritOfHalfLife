@@ -26,6 +26,8 @@
 #include "shake.h"
 #include "hltv.h"
 
+#include <string.h>
+#define DLLEXPORT
 // Spectator Mode
 extern "C" 
 {

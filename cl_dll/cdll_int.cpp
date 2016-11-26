@@ -22,7 +22,7 @@
 #include "cl_util.h"
 #include "netadr.h"
 //#include "VGUI_SchemeManager.h"
-#include "mp3.h" //AJH - Killars MP3player
+//#include "mp3.h" //AJH - Killars MP3player
 
 extern "C"
 {
@@ -42,7 +42,7 @@ extern "C"
 
 cl_enginefunc_t gEngfuncs;
 CHud gHUD;
-CMP3 gMP3; //AJH - Killars MP3player
+//CMP3 gMP3; //AJH - Killars MP3player
 
 //TeamFortressViewport *gViewPort = NULL;
 

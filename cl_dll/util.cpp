@@ -18,9 +18,9 @@
 // implementation of class-less helper functions
 //
 
-#include "STDIO.H"
-#include "STDLIB.H"
-#include "MATH.H"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 #include "hud.h"
 #include "cl_util.h"
@@ -30,7 +30,7 @@
 #define M_PI		3.14159265358979323846	// matches value in gcc v2 math.h
 #endif
 
-vec3_t vec3_origin( 0, 0, 0 );
+extern vec3_t vec3_origin;
 
 double sqrt(double x);
 
