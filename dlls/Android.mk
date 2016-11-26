@@ -9,8 +9,8 @@ LOCAL_MODULE := server
 
 LOCAL_CFLAGS += -D_LINUX -DCLIENT_WEAPONS \
 	-Dstricmp=strcasecmp -Dstrnicmp=strncasecmp -D_snprintf=snprintf \
-	-fno-exceptions -fsigned-char -Wno-write-strings
-	
+	-fno-exceptions -fsigned-char -Wno-write-strings -DNO_VOICEGAMEMGR
+
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/. \
 		    $(LOCAL_PATH)/../common \
 		    $(LOCAL_PATH)/../engine/common \
@@ -36,8 +36,7 @@ LOCAL_SRC_FILES := AI_BaseNPC_Schedule.cpp aflock.cpp agrunt.cpp airtank.cpp ali
 		spectator.cpp squadmonster.cpp squeakgrenade.cpp stats.cpp subs.cpp \
 		talkmonster.cpp teamplay_gamerules.cpp tempmonster.cpp tentacle.cpp triggers.cpp \
 		tripmine.cpp turret.cpp util.cpp weapons.cpp world.cpp xen.cpp zombie.cpp \
-	   ../pm_shared/pm_debug.c ../pm_shared/pm_math.c ../pm_shared/pm_shared.c \
-	   ../game_shared/voice_gamemgr.cpp
+	   ../pm_shared/pm_debug.c ../pm_shared/pm_math.c ../pm_shared/pm_shared.c
 
 
 LOCAL_CFLAGS += $(CFLAGS_OPT)
