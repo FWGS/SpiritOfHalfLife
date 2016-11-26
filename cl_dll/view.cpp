@@ -250,7 +250,7 @@ float V_CalcRoll (vec3_t angles, vec3_t velocity, float rollangle, float rollspe
 	}
 	return side * sign;
 }
-
+/*
 typedef struct pitchdrift_s
 {
 	float		pitchvel;
@@ -283,7 +283,7 @@ void V_StopPitchDrift ( void )
 	pd.pitchvel = 0;
 }
 
-/*
+
 ===============
 V_DriftPitch
 
@@ -292,7 +292,7 @@ Moves the client pitch angle towards idealpitch sent by the server.
 If the user is adjusting pitch manually, either with lookup/lookdown,
 mlook and mouse, or klook and keyboard, pitch drifting is constantly stopped.
 ===============
-*/
+
 void V_DriftPitch ( struct ref_params_s *pparams )
 {
 	float		delta, move;
@@ -349,6 +349,7 @@ void V_DriftPitch ( struct ref_params_s *pparams )
 		pparams->cl_viewangles[PITCH] -= move;
 	}
 }
+*/
 
 /* 
 ============================================================================== 
@@ -559,7 +560,7 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 		return;
 	}
 
-	V_DriftPitch ( pparams );
+	//V_DriftPitch ( pparams );
 
 	if ( gEngfuncs.IsSpectateOnly() )
 	{
@@ -1864,7 +1865,7 @@ V_Init
 */
 void V_Init (void)
 {
-	gEngfuncs.pfnAddCommand ("centerview", V_StartPitchDrift );
+	//gEngfuncs.pfnAddCommand ("centerview", V_StartPitchDrift );
 
 	scr_ofsx			= gEngfuncs.pfnRegisterVariable( "scr_ofsx","0", 0 );
 	scr_ofsy			= gEngfuncs.pfnRegisterVariable( "scr_ofsy","0", 0 );

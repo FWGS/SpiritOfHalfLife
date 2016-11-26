@@ -17,8 +17,8 @@
 #include "const.h"
 #include "camera.h"
 #include "in_defs.h"
-#include "../engine/keydefs.h"
-#include "view.h"
+#include "keydefs.h"
+//#include "view.h"
 #include "windows.h"
 
 #define MOUSE_BUTTON_COUNT 5
@@ -377,10 +377,10 @@ void IN_MouseMove ( float frametime, usercmd_t *cmd)
 	gEngfuncs.GetViewAngles( (float *)viewangles );
 	oldviewangles = viewangles; //LRC 1.8
 
-	if ( in_mlook.state & 1)
+	/*if ( in_mlook.state & 1)
 	{
 		V_StopPitchDrift ();
-	}
+	}*/
 
 	//jjb - this disbles normal mouse control if the user is trying to 
 	//      move the camera, or if the mouse cursor is visible or if we're in intermission
@@ -869,7 +869,7 @@ void IN_JoyMove ( float frametime, usercmd_t *cmd )
 					{
 						viewangles[PITCH] += (fAxisValue * joy_pitchsensitivity->value) * aspeed * cl_pitchspeed->value;
 					}
-					V_StopPitchDrift();
+					//V_StopPitchDrift();
 				}
 				else
 				{
@@ -877,10 +877,10 @@ void IN_JoyMove ( float frametime, usercmd_t *cmd )
 					// disable pitch return-to-center unless requested by user
 					// *** this code can be removed when the lookspring bug is fixed
 					// *** the bug always has the lookspring feature on
-					if(lookspring->value == 0.0)
+					/*if(lookspring->value == 0.0)
 					{
 						V_StopPitchDrift();
-					}
+					}*/
 				}
 			}
 			else
@@ -941,7 +941,7 @@ void IN_JoyMove ( float frametime, usercmd_t *cmd )
 					{
 						viewangles[PITCH] += (fAxisValue * joy_pitchsensitivity->value) * speed * 180.0;
 					}
-					V_StopPitchDrift();
+					//V_StopPitchDrift();
 				}
 				else
 				{
@@ -949,10 +949,10 @@ void IN_JoyMove ( float frametime, usercmd_t *cmd )
 					// disable pitch return-to-center unless requested by user
 					// *** this code can be removed when the lookspring bug is fixed
 					// *** the bug always has the lookspring feature on
-					if( lookspring->value == 0.0 )
+					/*if( lookspring->value == 0.0 )
 					{
 						V_StopPitchDrift();
-					}
+					}*/
 				}
 			}
 			break;

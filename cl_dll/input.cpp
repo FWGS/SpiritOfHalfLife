@@ -23,7 +23,7 @@ extern "C"
 #include "const.h"
 #include "camera.h"
 #include "in_defs.h"
-#include "view.h"
+//#include "view.h"
 #include <string.h>
 #include <ctype.h>
 #define DLLEXPORT
@@ -576,10 +576,10 @@ void IN_BriefingUp(void)	//AJH
 void IN_MLookUp (void)
 {
 	KeyUp( &in_mlook );
-	if ( !( in_mlook.state & 1 ) && lookspring->value )
+	/*if ( !( in_mlook.state & 1 ) && lookspring->value )
 	{
 		V_StartPitchDrift();
-	}
+	}*/
 }
 
 /*
@@ -667,7 +667,7 @@ void CL_AdjustAngles ( float frametime, float *viewangles )
 	}
 	if (in_klook.state & 1)
 	{
-		V_StopPitchDrift ();
+		//V_StopPitchDrift ();
 		viewangles[PITCH] -= speed*cl_pitchspeed->value * CL_KeyState (&in_forward);
 		viewangles[PITCH] += speed*cl_pitchspeed->value * CL_KeyState (&in_back);
 	}
@@ -678,8 +678,8 @@ void CL_AdjustAngles ( float frametime, float *viewangles )
 	viewangles[PITCH] -= speed*cl_pitchspeed->value * up;
 	viewangles[PITCH] += speed*cl_pitchspeed->value * down;
 
-	if (up || down)
-		V_StopPitchDrift ();
+	//if (up || down)
+	//	V_StopPitchDrift ();
 		
 	if (viewangles[PITCH] > cl_pitchdown->value)
 		viewangles[PITCH] = cl_pitchdown->value;
