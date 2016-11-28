@@ -615,7 +615,7 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 	waterOffset = 0;
 	if ( pparams->waterlevel >= 2 )
 	{
-		int		i, contents, waterDist, waterEntity;
+		int contents, waterDist, waterEntity;
 		vec3_t	point;
 		waterDist = cl_waterdist->value;
 
@@ -790,7 +790,6 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 		( pparams->smoothing && ( pparams->maxclients > 1 ) ) )
 	{
 		int foundidx;
-		int i;
 		float t;
 
 		if ( cl_vsmoothing->value < 0.0 )
@@ -1511,7 +1510,7 @@ int V_FindViewModelByWeaponModel(int weaponindex)
 		int len = strlen( weaponModel->name );
 		int i = 0;
 
-		while ( modelmap[i] != NULL )
+		while ( modelmap[i][0] != NULL )
 		{
 			if ( !strnicmp( weaponModel->name, modelmap[i][0], len ) )
 			{

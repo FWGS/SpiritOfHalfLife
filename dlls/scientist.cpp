@@ -617,6 +617,8 @@ void CScientist :: SetYawSpeed ( void )
 	case ACT_TURN_RIGHT:
 		ys = 120;
 		break;
+	default:
+		break;
 	}
 
 	pev->yaw_speed = ys;
@@ -1016,6 +1018,8 @@ Schedule_t *CScientist :: GetSchedule ( void )
 
 		return slScientistCover;			// Run & Cower
 		break;
+	default:
+		break;
 	}
 	
 	return CTalkMonster::GetSchedule();
@@ -1032,7 +1036,7 @@ MONSTERSTATE CScientist :: GetIdealState ( void )
 			if ( IsFollowing() )
 			{
 				int relationship = IRelationship( m_hEnemy );
-				if ( relationship != R_FR || relationship != R_HT && !HasConditions( bits_COND_LIGHT_DAMAGE | bits_COND_HEAVY_DAMAGE ) )
+				if ( relationship != R_FR || ( relationship != R_HT && !HasConditions( bits_COND_LIGHT_DAMAGE | bits_COND_HEAVY_DAMAGE ) ) )
 				{
 					// Don't go to combat if you're following the player
 					m_IdealMonsterState = MONSTERSTATE_ALERT;
@@ -1077,6 +1081,8 @@ MONSTERSTATE CScientist :: GetIdealState ( void )
 
 			}
 		}
+		break;
+	default:
 		break;
 	}
 

@@ -702,6 +702,8 @@ Schedule_t *CISlave :: GetSchedule( void )
 			}
 		}
 		break;
+	default:
+		break;
 	}
 	return CSquadMonster::GetSchedule( );
 }

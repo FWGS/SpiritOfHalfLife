@@ -553,6 +553,8 @@ MONSTERSTATE CSquadMonster :: GetIdealState ( void )
 			SquadMakeEnemy ( m_hEnemy );
 		}
 		break;
+	default:
+		break;
 	}
 
 	return CBaseMonster :: GetIdealState();

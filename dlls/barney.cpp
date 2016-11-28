@@ -865,6 +865,8 @@ Schedule_t *CBarney :: GetSchedule ( void )
 		// try to say something about smells
 		TrySmellTalk();
 		break;
+	default:
+		break;
 	}
 	
 	return CTalkMonster::GetSchedule();

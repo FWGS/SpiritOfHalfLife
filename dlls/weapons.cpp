@@ -636,6 +636,8 @@ void CBasePlayerItem::DefaultTouch( CBaseEntity *pOther )
 				i = 7;
 			else if (strncmp(weapon_name, "item_", 5) == 0)
 				i = 5;
+			else
+				i = 0;
 
 			sprintf(sample, "!%s", weapon_name + i);
 			pPlayer->SetSuitUpdate(sample, FALSE, SUIT_NEXT_IN_30SEC);

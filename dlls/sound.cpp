@@ -1393,7 +1393,7 @@ int SENTENCEG_PlayRndI(edict_t *entity, int isentenceg,
 	name[0] = 0;
 
 	ipick = USENTENCEG_Pick(isentenceg, name);
-	if (ipick > 0 && name)
+	if( ipick > 0 && name[0] )
 		EMIT_SOUND_DYN(entity, CHAN_VOICE, name, volume, attenuation, flags, pitch);
 	return ipick;
 }
@@ -1769,6 +1769,7 @@ void TEXTURETYPE_Init()
 	if ( !pMemFile )
 		return;
 
+	filePos = 0;
 	// for each line in the file...
 	while (memfgets(pMemFile, fileSize, filePos, buffer, 511) != NULL && (gcTextures < CTEXTURESMAX))
 	{

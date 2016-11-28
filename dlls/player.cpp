@@ -1,4 +1,4 @@
-	/***
+/***
 *
 *	Copyright (c) 1996-2002, Valve LLC. All rights reserved.
 *
@@ -2464,13 +2464,13 @@ void CBasePlayer::CheckSuitUpdate()
 	{
 		// play a sentence off of the end of the queue
 		for (i = 0; i < CSUITPLAYLIST; i++)
-			{
-			if (isentence = m_rgSuitPlayList[isearch])
+		{
+			if( ( isentence = m_rgSuitPlayList[isearch] ) )
 				break;
 
 			if (++isearch == CSUITPLAYLIST)
 				isearch = 0;
-			}
+		}
 
 		if (isentence)
 		{
@@ -3936,8 +3936,6 @@ void CBasePlayer::CheatImpulseCommands( int iImpulse )
 
 	case 107:
 		{
-			TraceResult tr;
-
 			edict_t		*pWorld = g_engfuncs.pfnPEntityOfEntIndex( 0 );
 
 			Vector start = pev->origin + pev->view_ofs;
@@ -4489,7 +4487,7 @@ void CBasePlayer :: UpdateClientData( void )
 				if (pFind->v.spawnflags & 1)
 				{
 					// copy settings to player's data and clear fading
-					CBaseEntity *pEnt = CBaseEntity::Instance( pFind );
+					pEnt = CBaseEntity::Instance( pFind );
 					CRainModify *pRainModify = (CRainModify *)pEnt;
 
 					Rain_dripsPerSecond = pRainModify->Rain_Drips;

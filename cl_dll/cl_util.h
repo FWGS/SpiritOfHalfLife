@@ -112,9 +112,9 @@ inline int DrawConsoleString( int x, int y, const char *string )
 inline void GetConsoleStringSize( const char *string, int *width, int *height )
 {
 	if( hud_textmode->value == 1 )
-+		*height = 13, *width = gHUD.DrawHudStringLen( (char*)string );
-+	else
-+		gEngfuncs.pfnDrawConsoleStringLen( (char*)string, width, height );
+		*height = 13, *width = gHUD.DrawHudStringLen( (char*)string );
+	else
+		gEngfuncs.pfnDrawConsoleStringLen( (char*)string, width, height );
 }
 
 inline int ConsoleStringLen( const char *string )

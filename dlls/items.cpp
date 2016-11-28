@@ -907,7 +907,7 @@ void CItemCamera::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE u
 		//	This is redundant 'viewFlags |= CAMERA_DRAWPLAYER' has the same effect.
 		//	CLIENT_COMMAND(pPlayer->edict(),"drawplayer\n");
 
-			int sendflags;
+			int sendflags = 0;
 			sendflags = sendflags | ITEM_CAMERA_ACTIVE | CAMERA_DRAWPLAYER;
 
 			pPlayer->viewEntity = pev->targetname;

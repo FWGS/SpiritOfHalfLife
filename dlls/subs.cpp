@@ -536,7 +536,7 @@ void CBaseToggle::KeyValue( KeyValueData *pkvd )
 		CBaseDelay::KeyValue( pkvd );
 }
 
-/*
+
 //void CBaseToggle ::  LinearMove( Vector	vecInput, float flSpeed)
 //{
 //	LinearMove(vecInput, flSpeed);
