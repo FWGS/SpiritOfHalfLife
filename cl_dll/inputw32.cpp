@@ -952,7 +952,7 @@ void IN_JoyMove ( float frametime, usercmd_t *cmd )
 					/*if( lookspring->value == 0.0 )
 					{
 						V_StopPitchDrift();
-					}*/
+					}*/
 				}
 			}
 			break;
