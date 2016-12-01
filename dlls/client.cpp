@@ -460,9 +460,10 @@ void ClientCommand( edict_t *pEntity )
 	}
 	else if ( FStrEq(pcmd, "playaudio" ) )  //AJH - MP3/OGG player (based on killars MP3)
 	{
-		MESSAGE_BEGIN( MSG_ONE, gmsgPlayMP3, NULL, ENT(pev) );
+		CLIENT_COMMAND( ENT( pev ), "play %s\n", CMD_ARGV( 1 ) );
+		/*MESSAGE_BEGIN( MSG_ONE, gmsgPlayMP3, NULL, ENT(pev) );
 			WRITE_STRING( (char *)CMD_ARGV(1) );
-		MESSAGE_END();
+		MESSAGE_END();*/
 	}
 	else if ( FStrEq(pcmd, "inventory" ) )  //AJH - Inventory system
 	{
