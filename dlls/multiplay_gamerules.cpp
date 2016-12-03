@@ -47,7 +47,7 @@ extern int g_teamplay;
 
 float g_flIntermissionStartTime = 0;
 
-#ifndef NO_VOICEGAMEM
+#ifndef NO_VOICEGAMEMGR
 CVoiceGameMgr	g_VoiceGameMgr;
 
 class CMultiplayGameMgrHelper : public IVoiceGameMgrHelper

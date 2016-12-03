@@ -9,7 +9,7 @@ LOCAL_MODULE := server
 
 LOCAL_CFLAGS += -D_LINUX -DCLIENT_WEAPONS \
 	-Dstricmp=strcasecmp -Dstrnicmp=strncasecmp -D_snprintf=snprintf \
-	-fno-exceptions -fsigned-char -Wno-write-strings -DNO_VOICEGAMEMGR
+	-Wno-write-strings -DNO_VOICEGAMEMGR
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/. \
 		    $(LOCAL_PATH)/../common \
@@ -54,6 +54,6 @@ ifeq ($(TARGET_ARCH_ABI),x86)
 LOCAL_CFLAGS += $(CFLAGS_OPT_X86)
 endif
 
-LOCAL_CPPFLAGS := $(LOCAL_CFLAGS) -frtti -fpermissive
+LOCAL_CPPFLAGS := $(LOCAL_CFLAGS) -frtti
 
 include $(BUILD_SHARED_LIBRARY)
