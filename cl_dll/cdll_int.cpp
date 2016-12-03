@@ -168,6 +168,25 @@ int DLLEXPORT Initialize( cl_enginefunc_t *pEnginefuncs, int iVersion )
 
 
 /*
+=================
+HUD_GetRect
+
+VGui stub
+=================
+*/
+int *HUD_GetRect( void )
+{
+	static int extent[4];
+
+	extent[0] = gEngfuncs.GetWindowCenterX() - ScreenWidth / 2;
+	extent[1] = gEngfuncs.GetWindowCenterY() - ScreenHeight / 2;
+	extent[2] = gEngfuncs.GetWindowCenterX() + ScreenWidth / 2;
+	extent[3] = gEngfuncs.GetWindowCenterY() + ScreenHeight / 2;
+
+	return extent;
+}
+
+/*
 ==========================
 	HUD_VidInit
 
@@ -272,6 +291,7 @@ void DLLEXPORT HUD_Frame( double time )
 	//ServersThink( time );
 
 	//GetClientVoiceMgr()->Frame(time);
+	gEngfuncs.VGui_ViewportPaintBackground( HUD_GetRect() );
 }
 
 
