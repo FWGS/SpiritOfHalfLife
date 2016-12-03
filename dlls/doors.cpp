@@ -757,8 +757,9 @@ void CBaseDoor::DoorGoUp( void )
 
 	// emit door moving and stop sounds on CHAN_STATIC so that the multicast doesn't
 	// filter them out and leave a client stuck with looping door sounds!
-	if ( !FBitSet( pev->spawnflags, SF_DOOR_SILENT ) )
-		EMIT_SOUND(ENT(pev), CHAN_STATIC, (char*)STRING(pev->noiseMoving), 1, ATTN_NORM);
+	if( !FBitSet( pev->spawnflags, SF_DOOR_SILENT ) )
+		if( m_toggle_state != TS_GOING_UP && m_toggle_state != TS_GOING_DOWN )
+			EMIT_SOUND( ENT( pev ), CHAN_STATIC, (char*)STRING( pev->noiseMoving ), 1, ATTN_NORM );
 
 //	ALERT(at_debug, "%s go up (was %d)\n", STRING(pev->targetname), m_toggle_state);
 	m_toggle_state = TS_GOING_UP;
@@ -870,8 +871,9 @@ void CBaseDoor::DoorHitTop( void )
 //
 void CBaseDoor::DoorGoDown( void )
 {
-	if ( !FBitSet( pev->spawnflags, SF_DOOR_SILENT ) )
-		EMIT_SOUND(ENT(pev), CHAN_STATIC, (char*)STRING(pev->noiseMoving), 1, ATTN_NORM);
+	if( !FBitSet( pev->spawnflags, SF_DOOR_SILENT ) )
+		if( m_toggle_state != TS_GOING_UP && m_toggle_state != TS_GOING_DOWN )
+			EMIT_SOUND( ENT( pev ), CHAN_STATIC, (char*)STRING( pev->noiseMoving ), 1, ATTN_NORM );
 	
 //	ALERT(at_debug, "%s go down (was %d)\n", STRING(pev->targetname), m_toggle_state);
 
