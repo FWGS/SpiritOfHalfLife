@@ -19,7 +19,7 @@
 //
 
 //LRC - define to help track what calls are made on changelevel, save/restore, etc
-#define ENGINE_DEBUG
+//#define ENGINE_DEBUG
 
 #include "hud.h"
 #include "cl_util.h"
