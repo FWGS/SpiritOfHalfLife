@@ -2997,7 +2997,7 @@ int HaveCamerasInPVS( edict_t* edict )
 	{
 		CBaseEntity *pEntity = UTIL_PlayerByIndex( i );
 		CBasePlayer *pPlayer = (CBasePlayer *)pEntity;
-		if (pPlayer->viewFlags & 1) // custom view active
+		if ( pPlayer && pPlayer->viewFlags & 1) // custom view active
 		{
 			CBaseEntity *pViewEnt = UTIL_FindEntityByTargetname(NULL,STRING(pPlayer->viewEntity));
 			if (!pViewEnt)
