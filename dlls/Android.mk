@@ -8,7 +8,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := server
 
 LOCAL_CFLAGS += -D_LINUX -DCLIENT_WEAPONS \
-	-Dstricmp=strcasecmp -Dstrnicmp=strncasecmp -D_snprintf=snprintf \
+	-Dstricmp=strcasecmp -Dstrnicmp=strncasecmp \
 	-Wno-write-strings -DNO_VOICEGAMEMGR
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/. \
