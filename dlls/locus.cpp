@@ -625,7 +625,7 @@ void CLocusBeam::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE us
 	CBaseEntity *pEndEnt;
 	Vector vecStartPos;
 	Vector vecEndPos;
-	CBeam *pBeam;
+	CBeam *pBeam = 0;
 
 	switch(pev->impulse)
 	{
@@ -663,6 +663,8 @@ void CLocusBeam::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE us
 		pBeam->PointsInit( vecStartPos, vecStartPos + vecEndPos );
 		break;
 	}
+	if( !pBeam )
+		return;
 	pBeam->SetColor( pev->rendercolor.x, pev->rendercolor.y, pev->rendercolor.z );
 	pBeam->SetBrightness( pev->renderamt );
 	pBeam->SetNoise( m_iDistortion );
@@ -1005,7 +1007,7 @@ bool CCalcNumFromVec::CalcNumber( CBaseEntity *pLocus, float* OUTresult)
 	}
 
 	Vector vecB;
-	bool gotB;
+	bool gotB = false;
 	if ( !FStringNull(pev->netname) )
 	{
 		gotB = TryCalcLocus_Velocity( this, pLocus, STRING(pev->netname), &vecB );

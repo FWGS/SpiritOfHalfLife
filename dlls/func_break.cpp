@@ -338,7 +338,7 @@ void CBreakable::MaterialSoundRandom( edict_t *pEdict, Materials soundMaterial, 
 
 void CBreakable::Precache( void )
 {
-	const char *pGibName;
+	const char *pGibName = 0;
 
     switch (m_Material)
 	{
@@ -421,7 +421,7 @@ void CBreakable::DamageSound( void )
 	int pitch;
 	float fvol;
 	char *rgpsz[6];
-	int i;
+	int i = 0;
 	int material = m_Material;
 
 //	if (RANDOM_LONG(0,1))
@@ -667,6 +667,8 @@ void CBreakable::TraceAttack( entvars_t *pevAttacker, float flDamage, Vector vec
 			case matUnbreakableGlass:
 				UTIL_Ricochet( ptr->vecEndPos, RANDOM_FLOAT(0.5,1.5) );
 			break;
+			default:
+				break;
 		}
 	}
 
@@ -773,7 +775,7 @@ void CBreakable::Die( void )
 	// The more negative pev->health, the louder
 	// the sound should be.
 
-	fvol = RANDOM_FLOAT(0.85, 1.0) + (abs(pev->health) / 100.0);
+	fvol = RANDOM_FLOAT(0.85, 1.0) + (fabs(pev->health) / 100.0);
 
 	if (fvol > 1.0)
 		fvol = 1.0;
@@ -840,6 +842,8 @@ void CBreakable::Die( void )
 
 	case matCeilingTile:
 		EMIT_SOUND_DYN(ENT(pev), CHAN_VOICE, "debris/bustceiling.wav", fvol, ATTN_NORM, 0, pitch);
+		break;
+	default:
 		break;
 	}
 

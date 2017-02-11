@@ -971,6 +971,8 @@ BOOL CBaseEntity::ShouldToggle( USE_TYPE useType )
 		case STATE_TURN_OFF:
 			if (useType == USE_OFF) return FALSE;
 			break;
+		default:
+			break;
 		}
 	}
 	return TRUE;

@@ -765,6 +765,7 @@ void CController :: RunTask ( Task_t *pTask )
 //=========================================================
 Schedule_t *CController :: GetSchedule ( void )
 {
+/*
 	switch	( m_MonsterState )
 	{
 	case MONSTERSTATE_IDLE:
@@ -788,8 +789,10 @@ Schedule_t *CController :: GetSchedule ( void )
 			}
 		}
 		break;
+	default:
+		break;
 	}
-
+*/
 	return CSquadMonster :: GetSchedule();
 }
 

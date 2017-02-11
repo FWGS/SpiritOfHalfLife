@@ -641,7 +641,7 @@ void CMultiManager :: Spawn( void )
 {
 	CBaseEntity *pTarget;
 		pTarget = UTIL_FindEntityByTargetname( NULL, STRING(pev->targetname) );
-		if ( pTarget = UTIL_FindEntityByTargetname( NULL, "gen_lightsmm2") )
+		if( ( pTarget = UTIL_FindEntityByTargetname( NULL, "gen_lightsmm2") ) )
 		{
 		ALERT(at_debug, "DEBUG: multi_manager \"%s\": killed.\n", STRING(pev->targetname));
 		UTIL_Remove(this);
@@ -1569,7 +1569,7 @@ void CWatcherRatio :: UpdateState(CBaseEntity* pLocus, bool mustTrigger)
 
 	pev->frags = testVal; // store it for next time
 
-	bool testresult;
+	bool testresult = false;
 	bool withinTolerance = abs(testVal - cmpVal) <= toleranceVal;
 	switch( pev->impulse )
 	{
@@ -5185,7 +5185,7 @@ void CMotionThread::Think( void )
 	if (pev->spawnflags & SF_MOTION_DEBUG)
 		ALERT(at_debug, "motion_thread affects %s \"%s\":\n", STRING(m_hTarget->pev->classname), STRING(m_hTarget->pev->targetname));
 
-	Vector vecTemp;
+	Vector vecTemp( 0, 0, 0 );
 
 	if (m_iszPosition)
 	{

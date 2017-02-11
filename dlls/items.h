@@ -47,7 +47,7 @@ public:
 	void Precache( void );
 	int MyTouch( CBasePlayer *pPlayer );
 	void EXPORT ItemTouch(CBaseEntity *pOther);
-	void CItemMedicalKit::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 
 };
 
@@ -57,7 +57,7 @@ public:
 	void Spawn( void );
 	void Precache( void );
 	BOOL MyTouch( CBasePlayer *pPlayer );
-	void CItemAntiRad::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 };
 
 class CItemAntidote : public CItem //AJH new anti radiation syringe
@@ -66,7 +66,7 @@ public:
 	void Spawn( void );
 	void Precache( void );
 	BOOL MyTouch( CBasePlayer *pPlayer );
-	void CItemAntidote::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 };
 
 class CItemFlare : public CItem //AJH new anti radiation syringe
@@ -75,7 +75,7 @@ public:
 	void Spawn( void );
 	void Precache( void );
 	BOOL MyTouch( CBasePlayer *pPlayer );
-	void CItemFlare::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
+	void Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value );
 };
 
 class CItemCamera : public CItem //AJH new inventory camera (can be placed anywhere in a level by the player)

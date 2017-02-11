@@ -1135,6 +1135,8 @@ Schedule_t *CBullsquid :: GetSchedule( void )
 
 			break;
 		}
+	default:
+		break;
 	}
 
 	return CBaseMonster :: GetSchedule();
@@ -1285,6 +1287,8 @@ MONSTERSTATE CBullsquid :: GetIdealState ( void )
 			}
 			break;
 		}
+	default:
+		break;
 	}
 
 	m_IdealMonsterState = CBaseMonster :: GetIdealState();

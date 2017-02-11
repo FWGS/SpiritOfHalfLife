@@ -288,6 +288,8 @@ void CEnvState::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 			DontThink();
 		}
 		break;
+	default:
+		break;
 	}
 }
 
@@ -431,7 +433,7 @@ void CMultiSource::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE 
 	{
 		// the change activated me
 		ALERT( at_aiconsole, "Multisource %s enabled (%d inputs)\n", STRING(pev->targetname), m_iTotal );
-		USE_TYPE useType = USE_TOGGLE;
+		useType = USE_TOGGLE;
 		if ( m_globalstate )
 			useType = USE_ON;
 		SUB_UseTargets( NULL, useType, 0 );

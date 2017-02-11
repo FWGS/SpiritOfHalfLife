@@ -25,7 +25,7 @@
 #define RGB_REDISH 0x00FF1010 //255,160,0
 #define RGB_GREENISH 0x0000A000 //0,160,0
 
-#include "port.h"
+//#include "port.h"
 
 #ifndef _WIN32
 #define _cdecl 
@@ -96,7 +96,7 @@ struct HUDLIST {
 //
 //-----------------------------------------------------
 //
-#include "voice_status.h"
+//#include "voice_status.h"
 #include "hud_spectator.h"
 
 
@@ -214,7 +214,7 @@ private:
 //
 // REMOVED: Vgui has replaced this.
 //
-/*
+
 class CHudMOTD : public CHudBase
 {
 public:
@@ -224,14 +224,18 @@ public:
 	void Reset( void );
 
 	int MsgFunc_MOTD( const char *pszName, int iSize, void *pbuf );
+	void Scroll( int dir );
+	void Scroll( float amount );
+	float scroll;
+	bool m_bShow;
 
 protected:
 	static int MOTD_DISPLAY_TIME;
 	char m_szMOTD[ MAX_MOTD_LENGTH ];
-	float m_flActiveRemaining;
 	int m_iLines;
+	int m_iMaxLength;
 };
-*/
+
 
 //
 //-----------------------------------------------------
@@ -270,7 +274,7 @@ protected:
 //
 // REMOVED: Vgui has replaced this.
 //
-/*
+
 class CHudScoreboard: public CHudBase
 {
 public:
@@ -298,7 +302,7 @@ private:
 	struct cvar_s *cl_showpacketloss;
 
 };
-*/
+
 
 struct extra_player_info_t
 {
@@ -629,6 +633,7 @@ public:
 	int		m_iFOV;
 	int		m_Teamplay;
 	int		m_iRes;
+	float	m_flScale;
 	cvar_t  *m_pCvarStealMouse;
 	cvar_t	*m_pCvarDraw;
 	cvar_t	*RainInfo;
@@ -644,6 +649,8 @@ public:
 	int DrawHudStringReverse( int xpos, int ypos, int iMinX, char *szString, int r, int g, int b );
 	int DrawHudNumberString( int xpos, int ypos, int iMinX, int iNumber, int r, int g, int b );
 	int GetNumWidth(int iNumber, int iFlags);
+	int DrawHudStringLen( char *szIt );
+	void DrawDarkRectangle( int x, int y, int wide, int tall );
 	int viewEntityIndex; // for trigger_viewset
 	int viewFlags;
 	struct cl_mirror_s Mirrors[32]; //Limit - 32 mirrors!
@@ -689,6 +696,8 @@ public:
 	CHudTextMessage m_TextMessage;
 	CHudStatusIcons m_StatusIcons;
 	CHudParticle	m_Particle; // (LRC) -- 30/08/02 November235: Particles to Order
+	CHudScoreboard	m_Scoreboard;
+	CHudMOTD	m_MOTD;
 
 	void Init( void );
 	void VidInit( void );
@@ -725,6 +734,7 @@ public:
 	int	m_iWeaponBits;
 	int	m_fPlayerDead;
 	int m_iIntermission;
+	int m_iNoConsolePrint;
 
 	// sprite indexes
 	int m_HUD_number_0;
@@ -736,10 +746,10 @@ public:
 
 };
 
-class TeamFortressViewport;
+//class TeamFortressViewport;
 
 extern CHud gHUD;
-extern TeamFortressViewport *gViewPort;
+//extern TeamFortressViewport *gViewPort;
 
 extern int g_iPlayerClass;
 extern int g_iTeamNumber;

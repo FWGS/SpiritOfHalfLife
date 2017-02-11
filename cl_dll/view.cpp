@@ -26,6 +26,8 @@
 #include "shake.h"
 #include "hltv.h"
 
+#include <string.h>
+#define DLLEXPORT
 // Spectator Mode
 extern "C" 
 {
@@ -78,6 +80,7 @@ extern cvar_t	*cl_forwardspeed;
 extern cvar_t	*chase_active;
 extern cvar_t	*scr_ofsx, *scr_ofsy, *scr_ofsz;
 extern cvar_t	*cl_vsmoothing;
+extern Vector   dead_viewangles;
 
 #define	CAM_MODE_RELAX		1
 #define CAM_MODE_FOCUS		2
@@ -248,7 +251,7 @@ float V_CalcRoll (vec3_t angles, vec3_t velocity, float rollangle, float rollspe
 	}
 	return side * sign;
 }
-
+/*
 typedef struct pitchdrift_s
 {
 	float		pitchvel;
@@ -281,7 +284,7 @@ void V_StopPitchDrift ( void )
 	pd.pitchvel = 0;
 }
 
-/*
+
 ===============
 V_DriftPitch
 
@@ -290,7 +293,7 @@ Moves the client pitch angle towards idealpitch sent by the server.
 If the user is adjusting pitch manually, either with lookup/lookdown,
 mlook and mouse, or klook and keyboard, pitch drifting is constantly stopped.
 ===============
-*/
+
 void V_DriftPitch ( struct ref_params_s *pparams )
 {
 	float		delta, move;
@@ -347,6 +350,7 @@ void V_DriftPitch ( struct ref_params_s *pparams )
 		pparams->cl_viewangles[PITCH] -= move;
 	}
 }
+*/
 
 /* 
 ============================================================================== 
@@ -442,7 +446,15 @@ void V_CalcIntermissionRefdef ( struct ref_params_s *pparams )
 	view = gEngfuncs.GetViewModel();
 
 	VectorCopy ( pparams->simorg, pparams->vieworg );
-	VectorCopy ( pparams->cl_viewangles, pparams->viewangles );
+
+	if( pparams->health <= 0 )
+	{
+		VectorCopy( dead_viewangles, pparams->viewangles );
+	}
+	else
+	{
+		VectorCopy ( pparams->cl_viewangles, pparams->viewangles );
+	}
 
 	view->model = NULL;
 
@@ -557,7 +569,7 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 		return;
 	}
 
-	V_DriftPitch ( pparams );
+	//V_DriftPitch ( pparams );
 
 	if ( gEngfuncs.IsSpectateOnly() )
 	{
@@ -612,7 +624,7 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 	waterOffset = 0;
 	if ( pparams->waterlevel >= 2 )
 	{
-		int		i, contents, waterDist, waterEntity;
+		int contents, waterDist, waterEntity;
 		vec3_t	point;
 		waterDist = cl_waterdist->value;
 
@@ -671,7 +683,14 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 	V_AddIdle ( pparams );
 
 	// offsets
-	VectorCopy( pparams->cl_viewangles, angles );
+	if( pparams->health <= 0 )
+	{
+		VectorCopy( dead_viewangles, angles );
+	}
+	else
+	{
+		VectorCopy( pparams->cl_viewangles, angles );
+	}
 
 	AngleVectors ( angles, pparams->forward, pparams->right, pparams->up );
 
@@ -685,8 +704,15 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 	}	
 		
 	// Give gun our viewangles
-	VectorCopy ( pparams->cl_viewangles, view->angles );
-	
+	if( pparams->health <= 0 )
+	{
+		VectorCopy( dead_viewangles, view->angles );
+	}
+	else
+	{
+		VectorCopy ( pparams->cl_viewangles, view->angles );
+	}	
+
 	// set up gun position
 	V_CalcGunAngle ( pparams );
 
@@ -787,7 +813,6 @@ void V_CalcNormalRefdef ( struct ref_params_s *pparams )
 		( pparams->smoothing && ( pparams->maxclients > 1 ) ) )
 	{
 		int foundidx;
-		int i;
 		float t;
 
 		if ( cl_vsmoothing->value < 0.0 )
@@ -1508,7 +1533,7 @@ int V_FindViewModelByWeaponModel(int weaponindex)
 		int len = strlen( weaponModel->name );
 		int i = 0;
 
-		while ( modelmap[i] != NULL )
+		while ( modelmap[i][0] != NULL )
 		{
 			if ( !strnicmp( weaponModel->name, modelmap[i][0], len ) )
 			{
@@ -1862,7 +1887,7 @@ V_Init
 */
 void V_Init (void)
 {
-	gEngfuncs.pfnAddCommand ("centerview", V_StartPitchDrift );
+	//gEngfuncs.pfnAddCommand ("centerview", V_StartPitchDrift );
 
 	scr_ofsx			= gEngfuncs.pfnRegisterVariable( "scr_ofsx","0", 0 );
 	scr_ofsy			= gEngfuncs.pfnRegisterVariable( "scr_ofsy","0", 0 );

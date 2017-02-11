@@ -43,7 +43,7 @@ CGraph	WorldGraph;
 
 LINK_ENTITY_TO_CLASS( info_node, CNodeEnt );
 LINK_ENTITY_TO_CLASS( info_node_air, CNodeEnt );
-#ifdef __linux__
+#ifndef _WIN32
 #include <unistd.h>
 #define CreateDirectory(p, n) mkdir(p, 0777)
 #endif
@@ -517,13 +517,13 @@ int CGraph::NextNodeInRoute( int iCurrentNode, int iDest, int iHull, int iCap )
 {
 	int iNext = iCurrentNode;
 	int nCount = iDest+1;
-	char *pRoute = m_pRouteInfo + m_pNodes[ iCurrentNode ].m_pNextBestNode[iHull][iCap];
+	signed char *pRoute = m_pRouteInfo + m_pNodes[ iCurrentNode ].m_pNextBestNode[iHull][iCap];
 
 	// Until we decode the next best node
 	//
 	while (nCount > 0)
 	{
-		char ch = *pRoute++;
+		signed char ch = *pRoute++;
 		//ALERT(at_aiconsole, "C(%d)", ch);
 		if (ch < 0)
 		{
@@ -581,7 +581,7 @@ int CGraph :: FindShortestPath ( int *piPath, int iStart, int iDest, int iHull, 
 	int		iVisitNode;
 	int		iCurrentNode;
 	int		iNumPathNodes;
-	int		iHullMask;
+	int		iHullMask = 0;
 
 	if ( !m_fGraphPresent || !m_fGraphPointersSet )
 	{// protect us in the case that the node graph isn't available or built
@@ -891,7 +891,7 @@ int	CGraph :: FindNearestNode ( const Vector &vecOrigin,  int afNodeTypes )
 	m_CheckedCounter++;
 	if (m_CheckedCounter == 0)
 	{
-		for (int i = 0; i < m_cNodes; i++)
+		for (i = 0; i < m_cNodes; i++)
 		{
 			m_di[i].m_CheckedEvent = 0;
 		}
@@ -1277,7 +1277,7 @@ int CGraph :: LinkVisibleNodes ( CLink *pLinkPool, FILE *file, int *piBadNode )
 					fprintf ( file, "  Entity on connection: %s, name: %s  Model: %s", STRING( VARS( pTraceEnt )->classname ), STRING ( VARS( pTraceEnt )->targetname ), STRING ( VARS(tr.pHit)->model ) );
 				}
 				
-				fprintf ( file, "\n", j );
+				fprintf ( file, "\n" );
 			}
 
 			pLinkPool [ cTotalLinks ].m_iDestNode = j;
@@ -1711,7 +1711,6 @@ void CTestHull :: BuildNodeGraph( void )
 			// easier for them to connect (think stairs, chairs, and bumps in the floor).
 			// After the routing is done, push them back down.
 			//
-			TraceResult	tr;
 
 			UTIL_TraceLine ( WorldGraph.m_pNodes[i].m_vecOrigin,
 							 WorldGraph.m_pNodes[i].m_vecOrigin - Vector ( 0, 0, 384 ),
@@ -1886,17 +1885,17 @@ void CTestHull :: BuildNodeGraph( void )
 						switch ( hull )
 						{
 						case NODE_SMALL_HULL:	// if this hull can't fit, nothing can, so drop the connection
-							fprintf ( file, "NODE_SMALL_HULL step %f\n", step );
+							fprintf ( file, "NODE_SMALL_HULL step %d\n", step );
 							pTempPool[ pSrcNode->m_iFirstLink + j ].m_afLinkInfo &= ~(bits_LINK_SMALL_HULL | bits_LINK_HUMAN_HULL | bits_LINK_LARGE_HULL);
 							fSkipRemainingHulls = TRUE;// don't bother checking larger hulls
 							break;
 						case NODE_HUMAN_HULL:
-							fprintf ( file, "NODE_HUMAN_HULL step %f\n", step );
+							fprintf ( file, "NODE_HUMAN_HULL step %d\n", step );
 							pTempPool[ pSrcNode->m_iFirstLink + j ].m_afLinkInfo &= ~(bits_LINK_HUMAN_HULL | bits_LINK_LARGE_HULL);
 							fSkipRemainingHulls = TRUE;// don't bother checking larger hulls
 							break;
 						case NODE_LARGE_HULL:
-							fprintf ( file, "NODE_LARGE_HULL step %f\n", step );
+							fprintf ( file, "NODE_LARGE_HULL step %d\n", step );
 							pTempPool[ pSrcNode->m_iFirstLink + j ].m_afLinkInfo &= ~bits_LINK_LARGE_HULL;
 							break;
 						}
@@ -1905,7 +1904,6 @@ void CTestHull :: BuildNodeGraph( void )
 				}
 				else
 				{
-					TraceResult tr;
 
 					UTIL_TraceHull( pSrcNode->m_vecOrigin + Vector( 0, 0, 32 ), pDestNode->m_vecOriginPeek + Vector( 0, 0, 32 ), ignore_monsters, large_hull, ENT( pev ), &tr );
 					if (tr.fStartSolid || tr.flFraction < 1.0)
@@ -2009,7 +2007,7 @@ void CTestHull :: BuildNodeGraph( void )
 	fprintf ( file, "\n\n-------------------------------------------------------------------------------\n");
 	fprintf ( file, "Total Number of Connections in Pool: %d\n", cPoolLinks );
 	fprintf ( file, "-------------------------------------------------------------------------------\n");
-	fprintf ( file, "Connection Pool: %d bytes\n", sizeof ( CLink ) * cPoolLinks );
+	fprintf ( file, "Connection Pool: %zu bytes\n", sizeof ( CLink ) * cPoolLinks );
 	fprintf ( file, "-------------------------------------------------------------------------------\n");
 
 
@@ -2423,7 +2421,7 @@ int CGraph :: FLoadGraph ( char *szMapName )
 		// Malloc for the routing info.
 		//
 		m_fRoutingComplete = FALSE;
-		m_pRouteInfo = (char *)calloc( sizeof(char), m_nRouteInfo );
+		m_pRouteInfo = (signed char *)calloc( sizeof(signed char), m_nRouteInfo );
 		if ( !m_pRouteInfo )
 		{
 			ALERT ( at_aiconsole, "***ERROR**\nCounldn't malloc %d route bytes!\n", m_nRouteInfo );
@@ -2537,7 +2535,7 @@ int CGraph :: FSaveGraph ( char *szMapName )
 		//
 		if ( m_pRouteInfo && m_nRouteInfo )
 		{
-			fwrite ( m_pRouteInfo, sizeof( char ), m_nRouteInfo, file );
+			fwrite ( m_pRouteInfo, sizeof( signed char ), m_nRouteInfo, file );
 		}
 
 		if (m_pHashLinks && m_nHashLinks)
@@ -3043,7 +3041,7 @@ void CGraph :: ComputeStaticRoutingTables( void )
 
 	int *pMyPath = new int[m_cNodes];
 	unsigned short *BestNextNodes = new unsigned short[m_cNodes];
-	char *pRoute = new char[m_cNodes*2];
+	signed char *pRoute = new signed char[m_cNodes*2];
 
 
 	if (Routes && pMyPath && BestNextNodes && pRoute)
@@ -3138,7 +3136,7 @@ void CGraph :: ComputeStaticRoutingTables( void )
 					int cSequence = 0;
 					int cRepeats = 0;
 					int CompressedSize = 0;
-					char *p = pRoute;
+					signed char *p = pRoute;
 					for (int i = 0; i < m_cNodes; i++)
 					{
 						BOOL CanRepeat = ((BestNextNodes[i] == iLastNode) && cRepeats < 127);
@@ -3299,7 +3297,7 @@ void CGraph :: ComputeStaticRoutingTables( void )
 						}
 						else
 						{
-							char *Tmp = (char *)calloc(sizeof(char), (m_nRouteInfo + nRoute));
+							signed char *Tmp = (signed char *)calloc(sizeof(signed char), (m_nRouteInfo + nRoute));
 							memcpy(Tmp, m_pRouteInfo, m_nRouteInfo);
 							free(m_pRouteInfo);
 							m_pRouteInfo = Tmp;
@@ -3312,7 +3310,7 @@ void CGraph :: ComputeStaticRoutingTables( void )
 					else
 					{
 						m_nRouteInfo = nRoute;
-						m_pRouteInfo = (char *)calloc(sizeof(char), nRoute);
+						m_pRouteInfo = (signed char *)calloc(sizeof(signed char), nRoute);
 						memcpy(m_pRouteInfo, pRoute, nRoute);
 						m_pNodes[ iFrom ].m_pNextBestNode[iHull][iCap] = 0;
 						nTotalCompressedSize += CompressedSize;
@@ -3322,10 +3320,10 @@ void CGraph :: ComputeStaticRoutingTables( void )
 		}		
 		ALERT( at_aiconsole, "Size of Routes = %d\n", nTotalCompressedSize);
 	}
-	if (Routes) delete Routes;
-	if (BestNextNodes) delete BestNextNodes;
-	if (pRoute) delete pRoute;
-	if (pMyPath) delete pMyPath;
+	if (Routes) delete[] Routes;
+	if (BestNextNodes) delete[] BestNextNodes;
+	if (pRoute) delete[] pRoute;
+	if (pMyPath) delete[] pMyPath;
 	Routes = 0;
 	BestNextNodes = 0;
 	pRoute = 0;
@@ -3433,7 +3431,6 @@ void CGraph :: TestRoutingTables( void )
 #endif
 							ALERT(at_aiconsole, "Routing is inconsistent!!!\n");
 							ALERT(at_aiconsole, "(%d to %d |%d/%d)1:", iFrom, iTo, iHull, iCap);
-							int i = 0;
 							for (i = 0; i < cPathSize1; i++)
 							{
 								ALERT(at_aiconsole, "%d ", pMyPath[i]);
@@ -3458,8 +3455,8 @@ void CGraph :: TestRoutingTables( void )
 
 EnoughSaid:
 
-	if (pMyPath) delete pMyPath;
-	if (pMyPath2) delete pMyPath2;
+	if (pMyPath) delete[] pMyPath;
+	if (pMyPath2) delete[] pMyPath2;
 	pMyPath = 0;
 	pMyPath2 = 0;
 }

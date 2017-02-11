@@ -23,11 +23,12 @@ extern "C"
 #include "const.h"
 #include "camera.h"
 #include "in_defs.h"
-#include "view.h"
+//#include "view.h"
 #include <string.h>
 #include <ctype.h>
+#define DLLEXPORT
 
-#include "vgui_TeamFortressViewport.h"
+//#include "vgui_TeamFortressViewport.h"
 
 
 extern "C" 
@@ -381,9 +382,8 @@ Return 1 to allow engine to process the key, otherwise, act on it as needed
 */
 int DLLEXPORT HUD_Key_Event( int down, int keynum, const char *pszCurrentBinding )
 {
-	if (gViewPort)
-		return gViewPort->KeyInput(down, keynum, pszCurrentBinding);
-	
+	//if (gViewPort)
+	//	return gViewPort->KeyInput(down, keynum, pszCurrentBinding);
 	return 1;
 }
 
@@ -522,64 +522,64 @@ void IN_Impulse (void)
 void IN_ScoreDown(void)
 {
 	KeyDown(&in_score);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->ShowScoreBoard();
-	}
+	}*/
 }
 
 void IN_ScoreUp(void)
 {
 	KeyUp(&in_score);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->HideScoreBoard();
-	}
+	}*/
 }
 void IN_HUDDown(void)	//AJH
 {
 	KeyDown(&in_customhud);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		//gViewPort->ShowVGUIMenu(MENU_CUSTOM);
 		gViewPort->ShowCommandMenu( gViewPort->m_StandardMenu );
-	}
+	}*/
 }
 
 void IN_HUDUp(void)	//AJH
 {
 	KeyUp(&in_customhud);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		//gViewPort->HideVGUIMenu();
 		gViewPort->HideCommandMenu();
-	}
+	}*/
 }
 
 void IN_BriefingDown(void)	//AJH
 {
 	KeyDown(&in_briefing);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->ShowVGUIMenu(MENU_MAPBRIEFING);
-	}
+	}*/
 }
 
 void IN_BriefingUp(void)	//AJH
 {
 	KeyUp(&in_briefing);
-	if ( gViewPort )
+	/*if ( gViewPort )
 	{
 		gViewPort->HideVGUIMenu();
-	}
+	}*/
 }
 void IN_MLookUp (void)
 {
 	KeyUp( &in_mlook );
-	if ( !( in_mlook.state & 1 ) && lookspring->value )
+	/*if ( !( in_mlook.state & 1 ) && lookspring->value )
 	{
 		V_StartPitchDrift();
-	}
+	}*/
 }
 
 /*
@@ -667,7 +667,7 @@ void CL_AdjustAngles ( float frametime, float *viewangles )
 	}
 	if (in_klook.state & 1)
 	{
-		V_StopPitchDrift ();
+		//V_StopPitchDrift ();
 		viewangles[PITCH] -= speed*cl_pitchspeed->value * CL_KeyState (&in_forward);
 		viewangles[PITCH] += speed*cl_pitchspeed->value * CL_KeyState (&in_back);
 	}
@@ -678,8 +678,8 @@ void CL_AdjustAngles ( float frametime, float *viewangles )
 	viewangles[PITCH] -= speed*cl_pitchspeed->value * up;
 	viewangles[PITCH] += speed*cl_pitchspeed->value * down;
 
-	if (up || down)
-		V_StopPitchDrift ();
+	//if (up || down)
+	//	V_StopPitchDrift ();
 		
 	if (viewangles[PITCH] > cl_pitchdown->value)
 		viewangles[PITCH] = cl_pitchdown->value;
@@ -776,8 +776,8 @@ void DLLEXPORT CL_CreateMove ( float frametime, struct usercmd_s *cmd, int activ
 	cmd->buttons = CL_ButtonBits( 1 );
 
 	// If they're in a modal dialog, ignore the attack button.
-	if(GetClientVoiceMgr()->IsInSquelchMode())
-		cmd->buttons &= ~IN_ATTACK;
+	//if(GetClientVoiceMgr()->IsInSquelchMode())
+	//	cmd->buttons &= ~IN_ATTACK;
 
 	// Using joystick?
 	if ( in_joystick->value )
@@ -833,7 +833,10 @@ int CL_ButtonBits( int bResetState )
 
 	if ( in_attack.state & 3 )
 	{
-		bits |= IN_ATTACK;
+		if( gHUD.m_MOTD.m_bShow )
+			gHUD.m_MOTD.Reset();
+		else
+			bits |= IN_ATTACK;
 	}
 	
 	if (in_duck.state & 3)
@@ -1011,10 +1014,10 @@ void InitInput (void)
 	gEngfuncs.pfnAddCommand ("-reload", IN_ReloadUp);
 	gEngfuncs.pfnAddCommand ("+alt1", IN_Alt1Down);
 	gEngfuncs.pfnAddCommand ("-alt1", IN_Alt1Up);
-	gEngfuncs.pfnAddCommand ("+score", IN_ScoreDown);
-	gEngfuncs.pfnAddCommand ("-score", IN_ScoreUp);
-	gEngfuncs.pfnAddCommand ("+showscores", IN_ScoreDown);
-	gEngfuncs.pfnAddCommand ("-showscores", IN_ScoreUp);
+	//gEngfuncs.pfnAddCommand ("+score", IN_ScoreDown);
+	//gEngfuncs.pfnAddCommand ("-score", IN_ScoreUp);
+	//gEngfuncs.pfnAddCommand ("+showscores", IN_ScoreDown);
+	//gEngfuncs.pfnAddCommand ("-showscores", IN_ScoreUp);
 	gEngfuncs.pfnAddCommand ("-hud", IN_HUDUp);		//AJH
 	gEngfuncs.pfnAddCommand ("+hud", IN_HUDDown);	//AJH
 	gEngfuncs.pfnAddCommand ("-briefing", IN_BriefingUp);		//AJH

@@ -544,7 +544,7 @@ void DLLEXPORT HUD_CreateEntities( void )
 	// Add in any game specific objects
 	Game_AddObjects();
 
-	GetClientVoiceMgr()->CreateEntities();
+	//GetClientVoiceMgr()->CreateEntities();
 }
 
 /*
@@ -783,7 +783,7 @@ void DLLEXPORT HUD_TempEntUpdate (
 
 			if ( pTemp->flags & (FTENT_COLLIDEALL | FTENT_COLLIDEWORLD) )
 			{
-				vec3_t	traceNormal;
+				vec3_t	traceNormal( 0, 0, 0 );
 				float	traceFraction = 1;
 
 				if ( pTemp->flags & FTENT_COLLIDEALL )

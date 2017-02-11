@@ -1251,7 +1251,7 @@ void CLaser::KeyValue( KeyValueData *pkvd )
 	}
 	else if (FStrEq(pkvd->szKeyName, "width"))
 	{
-		SetWidth( atof(pkvd->szValue) );
+		SetWidth( (int)atof(pkvd->szValue) );
 		pkvd->fHandled = TRUE;
 	}
 	else if (FStrEq(pkvd->szKeyName, "NoiseAmplitude"))
@@ -4820,6 +4820,7 @@ void CEnvMirror :: Precache( void )
 
 void CEnvMirror :: MirrorThink( void )
 {
+	Vector v = Center();
 	if (bSent)
 	{
 		SetNextThink (0.01);
@@ -4832,7 +4833,7 @@ void CEnvMirror :: MirrorThink( void )
 
 	      	if (UTIL_PlayerByIndex(1))
 		{
-		         	PLAYBACK_EVENT_FULL (FEV_RELIABLE|FEV_GLOBAL, edict(), m_usMirror, 0.0, (float *)&Center(), (float *)&g_vecZero, 0.0, 0.0, m_flRadius, pev->frags, 1, 0);
+		         	PLAYBACK_EVENT_FULL (FEV_RELIABLE|FEV_GLOBAL, edict(), m_usMirror, 0.0, (float *)&v, (float *)&g_vecZero, 0.0, 0.0, m_flRadius, pev->frags, 1, 0);
 			bSent = TRUE;
 		}
 
@@ -4842,7 +4843,7 @@ void CEnvMirror :: MirrorThink( void )
 		if (pev->rendermode != kRenderNormal)
 		{
 			pev->rendermode = kRenderNormal;
-			PLAYBACK_EVENT_FULL (FEV_RELIABLE|FEV_GLOBAL, edict(), m_usMirror, 0.0, (float *)&Center(), (float *)&g_vecZero, 0.0, 0.0, m_flRadius, pev->frags, 0, 0);
+			PLAYBACK_EVENT_FULL (FEV_RELIABLE|FEV_GLOBAL, edict(), m_usMirror, 0.0, (float *)&v, (float *)&g_vecZero, 0.0, 0.0, m_flRadius, pev->frags, 0, 0);
 		}
 
 		bSent = TRUE;

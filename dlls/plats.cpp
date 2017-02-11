@@ -842,10 +842,12 @@ void CFuncTrain :: Blocked( CBaseEntity *pOther )
 	m_flActivateFinished = gpGlobals->time + 0.5;
 
 	if (pev->dmg)
+	{
 		if (m_hActivator)
 			pOther->TakeDamage( pev, m_hActivator->pev, pev->dmg, DMG_CRUSH );	//AJH Attribute damage to he who switched me.
 		else
 			pOther->TakeDamage( pev, pev, pev->dmg, DMG_CRUSH );
+	}
 }
 
 
@@ -2464,7 +2466,7 @@ void CFuncTrackChange :: UpdateTrain( Vector &dest )
 	float time;
 	Vector vel = pev->velocity;
 
-	if (m_pfnThink == &LinearMoveNow)
+	if (m_pfnThink == &CBaseToggle::LinearMoveNow)
 	{
 		// we're going to do a LinearMoveNow: calculate the velocity it'll have
 		Vector vecDest;

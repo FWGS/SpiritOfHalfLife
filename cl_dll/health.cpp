@@ -27,6 +27,7 @@
 #include "parsemsg.h"
 #include <string.h>
 
+#include "mobility_int.h"
 
 DECLARE_MESSAGE(m_Health, Health )
 DECLARE_MESSAGE(m_Health, Damage )
@@ -132,8 +133,18 @@ int CHudHealth:: MsgFunc_Damage(const char *pszName,  int iSize, void *pbuf )
 	UpdateTiles(gHUD.m_flTime, bitsDamage);
 
 	// Actually took damage?
-	if ( damageTaken > 0 || armor > 0 )
+	if( damageTaken > 0 || armor > 0 )
+	{
 		CalcDamageDirection(vecFrom);
+
+		if( gMobileEngfuncs && damageTaken > 0 )
+		{
+			float time = damageTaken * 4.0f;
+
+			if( time > 200.0f ) time = 200.0f;
+			gMobileEngfuncs->pfnVibrate( time, 0 );
+		}
+	}
 
 	return 1;
 }
@@ -369,7 +380,7 @@ int CHudHealth::DrawPain(float flTime)
 
 int CHudHealth::DrawDamage(float flTime)
 {
-	int r, g, b, a;
+	int r, g, b, a, i;
 	DAMAGE_IMAGE *pdmg;
 
 	if (!m_bitsDamage)
@@ -382,7 +393,7 @@ int CHudHealth::DrawDamage(float flTime)
 	ScaleColors(r, g, b, a);
 
 	// Draw all the items
-	for (int i = 0; i < NUM_DMG_TYPES; i++)
+	for (i = 0; i < NUM_DMG_TYPES; i++)
 	{
 		if (m_bitsDamage & giDmgFlags[i])
 		{
@@ -396,10 +407,9 @@ int CHudHealth::DrawDamage(float flTime)
 	// check for bits that should be expired
 	for ( i = 0; i < NUM_DMG_TYPES; i++ )
 	{
-		DAMAGE_IMAGE *pdmg = &m_dmg[i];
-
 		if ( m_bitsDamage & giDmgFlags[i] )
 		{
+			pdmg = &m_dmg[i];
 			pdmg->fExpire = min( flTime + DMG_IMAGE_LIFE, pdmg->fExpire );
 
 			if ( pdmg->fExpire <= flTime		// when the time has expired

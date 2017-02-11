@@ -97,7 +97,7 @@ public:
 	BOOL FValidateHintType ( short sHint );
 	BOOL FCanActiveIdle ( void );
 	Schedule_t *GetScheduleOfType ( int Type );
-	Schedule_t *CHoundeye :: GetSchedule( void );
+	Schedule_t *GetSchedule( void );
 
 	int	Save( CSave &save ); 
 	int Restore( CRestore &restore );
@@ -227,6 +227,8 @@ void CHoundeye :: SetYawSpeed ( void )
 	case ACT_TURN_LEFT:
 	case ACT_TURN_RIGHT:
 		ys = 90;
+		break;
+	default:
 		break;
 	}
 
@@ -1305,6 +1307,8 @@ Schedule_t *CHoundeye :: GetSchedule( void )
 			}
 			break;
 		}
+	default:
+		break;
 	}
 
 	return CSquadMonster :: GetSchedule();

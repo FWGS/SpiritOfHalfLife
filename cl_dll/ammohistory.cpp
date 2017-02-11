@@ -136,9 +136,10 @@ int HistoryResource :: DrawAmmoHistory( float flTime )
 					SPR_Set( *spr, r, g, b );
 					SPR_DrawAdditive( 0, xpos, ypos, &rcPic );
 				}
-
-				// Draw the number
-				gHUD.DrawHudNumberString( xpos - 10, ypos, xpos - 100, rgAmmoHistory[i].iCount, r, g, b );
+				// do not draw black console string
+				if( !( ( hud_textmode->value == 2 ) && ( scale < 200 ) ) )
+					// Draw the number
+					gHUD.DrawHudNumberString( xpos - 10, ypos, xpos - 100, rgAmmoHistory[i].iCount, r, g, b );
 			}
 			else if ( rgAmmoHistory[i].type == HISTSLOT_WEAP )
 			{

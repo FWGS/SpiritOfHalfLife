@@ -22,7 +22,7 @@
 #include "cl_util.h"
 #include "netadr.h"
 //#include "VGUI_SchemeManager.h"
-#include "mp3.h" //AJH - Killars MP3player
+//#include "mp3.h" //AJH - Killars MP3player
 
 extern "C"
 {
@@ -31,7 +31,7 @@ extern "C"
 
 #include <string.h>
 #include "hud_servers.h"
-#include "vgui_int.h"
+//#include "vgui_int.h"
 #include "interface.h"
 
 #ifdef _WIN32
@@ -42,10 +42,11 @@ extern "C"
 
 cl_enginefunc_t gEngfuncs;
 CHud gHUD;
-CMP3 gMP3; //AJH - Killars MP3player
+//CMP3 gMP3; //AJH - Killars MP3player
 
-TeamFortressViewport *gViewPort = NULL;
+//TeamFortressViewport *gViewPort = NULL;
 
+mobile_engfuncs_t *gMobileEngfuncs = NULL;
 void InitInput (void);
 void EV_HookEvents( void );
 void IN_Commands( void );
@@ -78,6 +79,7 @@ int		DLLEXPORT HUD_GetHullBounds( int hullnumber, float *mins, float *maxs );
 void	DLLEXPORT HUD_Frame( double time );
 void	DLLEXPORT HUD_VoiceStatus(int entindex, qboolean bTalking);
 void	DLLEXPORT HUD_DirectorMessage( int iSize, void *pbuf );
+void DLLEXPORT HUD_MobilityInterface( mobile_engfuncs_t *gpMobileEngfuncs );
 }
 
 /*
@@ -166,6 +168,25 @@ int DLLEXPORT Initialize( cl_enginefunc_t *pEnginefuncs, int iVersion )
 
 
 /*
+=================
+HUD_GetRect
+
+VGui stub
+=================
+*/
+int *HUD_GetRect( void )
+{
+	static int extent[4];
+
+	extent[0] = gEngfuncs.GetWindowCenterX() - ScreenWidth / 2;
+	extent[1] = gEngfuncs.GetWindowCenterY() - ScreenHeight / 2;
+	extent[2] = gEngfuncs.GetWindowCenterX() + ScreenWidth / 2;
+	extent[3] = gEngfuncs.GetWindowCenterY() + ScreenHeight / 2;
+
+	return extent;
+}
+
+/*
 ==========================
 	HUD_VidInit
 
@@ -179,7 +200,7 @@ int DLLEXPORT HUD_VidInit( void )
 {
 	gHUD.VidInit();
 
-	VGui_Startup();
+//	VGui_Startup();
 
 //LRCTEMP 1.8	if (CVAR_GET_FLOAT("r_glow") != 0)	 //check the cvar for the glow is on.//AJH Modified to include glow mode (1&2)
 //LRCTEMP 1.8		InitScreenGlow(); // glow effect --FragBait0
@@ -200,7 +221,7 @@ void DLLEXPORT HUD_Init( void )
 {
 	InitInput();
 	gHUD.Init();
-	Scheme_Init();
+//	Scheme_Init();
 }
 
 
@@ -267,9 +288,10 @@ Called by engine every frame that client .dll is loaded
 
 void DLLEXPORT HUD_Frame( double time )
 {
-	ServersThink( time );
+	//ServersThink( time );
 
-	GetClientVoiceMgr()->Frame(time);
+	//GetClientVoiceMgr()->Frame(time);
+	gEngfuncs.VGui_ViewportPaintBackground( HUD_GetRect() );
 }
 
 
@@ -283,7 +305,7 @@ Called when a player starts or stops talking.
 
 void DLLEXPORT HUD_VoiceStatus(int entindex, qboolean bTalking)
 {
-	GetClientVoiceMgr()->UpdateSpeakerStatus(entindex, bTalking);
+	//GetClientVoiceMgr()->UpdateSpeakerStatus(entindex, bTalking);
 }
 
 /*
@@ -299,4 +321,9 @@ void DLLEXPORT HUD_DirectorMessage( int iSize, void *pbuf )
 	 gHUD.m_Spectator.DirectorMessage( iSize, pbuf );
 }
 
-
+void DLLEXPORT HUD_MobilityInterface( mobile_engfuncs_t *gpMobileEngfuncs )
+{
+	if( gpMobileEngfuncs->version != MOBILITY_API_VERSION )
+		return;
+	gMobileEngfuncs = gpMobileEngfuncs;
+}

@@ -272,7 +272,7 @@ BOOL CBaseMonster :: HasHumanGibs( void )
 
 	// these types of monster don't use gibs
 	if ( myClass == CLASS_NONE || myClass == CLASS_MACHINE ||
-		 myClass == CLASS_PLAYER_BIOWEAPON && myClass == CLASS_ALIEN_BIOWEAPON)
+		( myClass == CLASS_PLAYER_BIOWEAPON && myClass == CLASS_ALIEN_BIOWEAPON ) )
 	{
 		return FALSE;
 	}
@@ -299,7 +299,7 @@ BOOL CBaseMonster :: HasAlienGibs( void )
 
 	// these types of monster don't use gibs
 	if ( myClass == CLASS_NONE || myClass == CLASS_MACHINE ||
-		 myClass == CLASS_PLAYER_BIOWEAPON && myClass == CLASS_ALIEN_BIOWEAPON)
+		( myClass == CLASS_PLAYER_BIOWEAPON && myClass == CLASS_ALIEN_BIOWEAPON ) )
 	{
 		return FALSE;
 	}
@@ -346,7 +346,7 @@ void CBaseMonster :: GibMonster( void )
 
 	EMIT_SOUND(ENT(pev), CHAN_WEAPON, "common/bodysplat.wav", 1, ATTN_NORM);		
 
-	if ( iszCustomGibs = HasCustomGibs() ) //LRC - monster_generic can have a custom gibset
+	if( ( iszCustomGibs = HasCustomGibs() ) ) //LRC - monster_generic can have a custom gibset
 	{
 		if ( CVAR_GET_FLOAT("violence_hgibs") != 0 )
 		{
@@ -1295,6 +1295,10 @@ BOOL CBaseEntity :: FVisible ( CBaseEntity *pEntity )
 	Vector		vecLookerOrigin;
 	Vector		vecTargetOrigin;
 	
+	if( !pEntity )
+		return FALSE;
+	if( !pEntity->pev )
+		return FALSE;
 	if (FBitSet( pEntity->pev->flags, FL_NOTARGET ))
 		return FALSE;
 

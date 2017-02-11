@@ -22,7 +22,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "vgui_TeamFortressViewport.h"
+//#include "vgui_TeamFortressViewport.h"
 
 DECLARE_MESSAGE( m_DeathNotice, DeathMsg );
 
@@ -112,7 +112,7 @@ int CHudDeathNotice :: Draw( float flTime )
 		rgDeathNoticeList[i].flDisplayTime = min( rgDeathNoticeList[i].flDisplayTime, gHUD.m_flTime + DEATHNOTICE_DISPLAY_TIME );
 
 		// Only draw if the viewport will let me
-		if ( gViewPort && gViewPort->AllowedToPrintText() )
+		//if ( gViewPort && gViewPort->AllowedToPrintText() )
 		{
 			// Draw the death notice
 			y = YRES(DEATHNOTICE_TOP) + 2 + (20 * i);  //!!!
@@ -126,7 +126,7 @@ int CHudDeathNotice :: Draw( float flTime )
 
 				// Draw killers name
 				if ( rgDeathNoticeList[i].KillerColor )
-					gEngfuncs.pfnDrawSetTextColor( rgDeathNoticeList[i].KillerColor[0], rgDeathNoticeList[i].KillerColor[1], rgDeathNoticeList[i].KillerColor[2] );
+					DrawSetTextColor( rgDeathNoticeList[i].KillerColor[0], rgDeathNoticeList[i].KillerColor[1], rgDeathNoticeList[i].KillerColor[2] );
 				x = 5 + DrawConsoleString( x, y, rgDeathNoticeList[i].szKiller );
 			}
 
@@ -146,7 +146,7 @@ int CHudDeathNotice :: Draw( float flTime )
 			if (rgDeathNoticeList[i].iNonPlayerKill == FALSE)
 			{
 				if ( rgDeathNoticeList[i].VictimColor )
-					gEngfuncs.pfnDrawSetTextColor( rgDeathNoticeList[i].VictimColor[0], rgDeathNoticeList[i].VictimColor[1], rgDeathNoticeList[i].VictimColor[2] );
+					DrawSetTextColor( rgDeathNoticeList[i].VictimColor[0], rgDeathNoticeList[i].VictimColor[1], rgDeathNoticeList[i].VictimColor[2] );
 				x = DrawConsoleString( x, y, rgDeathNoticeList[i].szVictim );
 			}
 		}
@@ -158,6 +158,7 @@ int CHudDeathNotice :: Draw( float flTime )
 // This message handler may be better off elsewhere
 int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *pbuf )
 {
+	int i;
 	m_iFlags |= HUD_ACTIVE;
 
 	BEGIN_READ( pbuf, iSize );
@@ -167,7 +168,7 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 
 	char killedwith[32];
 	strcpy( killedwith, "d_" );
-	strncat( killedwith, READ_STRING(), 29 ); //AJH supposed to be 29 not 32
+	strncat( killedwith, READ_STRING(), sizeof(killedwith) - strlen(killedwith) - 1 ); //AJH supposed to be 29 not 32
 
 
 	//AJH Begin:Custom death 'techniques'
@@ -186,12 +187,12 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 	//AJH End:Custom death 'techniques'
 
 
-	if (gViewPort)
-		gViewPort->DeathMsg( killer, victim );
+	//if (gViewPort)
+	//	gViewPort->DeathMsg( killer, victim );
 
 	gHUD.m_Spectator.DeathMessage(victim);
 
-	for ( int i = 0; i < MAX_DEATHNOTICES; i++ )
+	for ( i = 0; i < MAX_DEATHNOTICES; i++ )
 	{
 		if ( rgDeathNoticeList[i].iId == 0 )
 			break;
@@ -202,8 +203,10 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 		i = MAX_DEATHNOTICES - 1;
 	}
 
-	if (gViewPort)
-		gViewPort->GetAllPlayersInfo();
+	//if (gViewPort)
+	//	gViewPort->GetAllPlayersInfo();
+
+	gHUD.m_Scoreboard.GetAllPlayersInfo();
 
 	// Get the Killer's name
 	char *killer_name = g_PlayerInfoList[ killer ].name;
@@ -302,7 +305,7 @@ int CHudDeathNotice :: MsgFunc_DeathMsg( const char *pszName, int iSize, void *p
 			ConsolePrint( technique_B );//AJH Custom death methods
 		}
 
-		if ( killedwith && *killedwith && (*killedwith > 13 ) && strcmp( killedwith, "d_world" ) && !rgDeathNoticeList[i].iTeamKill )
+		if ( *killedwith && (*killedwith > 13 ) && strcmp( killedwith, "d_world" ) && !rgDeathNoticeList[i].iTeamKill )
 		{
 			ConsolePrint( " with " );
 

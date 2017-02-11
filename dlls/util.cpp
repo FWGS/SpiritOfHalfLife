@@ -395,7 +395,7 @@ Vector UTIL_VecToAngles( const Vector &vec )
 	
 //LRC - pass in a normalised axis vector and a number of degrees, and this returns the corresponding
 // angles value for an entity.
-static inline Vector UTIL_AxisRotationToAngles( const Vector &vecAxis, float flDegs )
+Vector UTIL_AxisRotationToAngles( const Vector &vecAxis, float flDegs )
 {
 	Vector vecTemp = UTIL_AxisRotationToVec( vecAxis, flDegs );
 	float rgflVecOut[3];
@@ -2283,7 +2283,7 @@ void CSave :: WriteFloat( const char *pname, const float *data, int count )
 void CSave :: WriteTime( const char *pname, const float *data, int count )
 {
 	int i;
-	Vector tmp, input;
+	//Vector tmp, input;
 
 	BufferHeader( pname, sizeof(float) * count );
 	for ( i = 0; i < count; i++ )
@@ -2370,7 +2370,7 @@ void CSave :: WritePositionVector( const char *pname, const Vector &value )
 void CSave :: WritePositionVector( const char *pname, const float *value, int count )
 {
 	int i;
-	Vector tmp, input;
+	//Vector tmp, input;
 
 	BufferHeader( pname, sizeof(float) * 3 * count );
 	for ( i = 0; i < count; i++ )
@@ -2527,6 +2527,8 @@ int CSave :: WriteFields( const char *cname, const char *pname, void *pBaseData,
 					case FIELD_EHANDLE:
 						entityArray[j] = EntityIndex( (CBaseEntity *)(((EHANDLE *)pOutputData)[j]) );
 					break;
+					default:
+						break;
 				}
 			}
 			WriteInt( pTest->fieldName, entityArray, pTest->fieldSize );

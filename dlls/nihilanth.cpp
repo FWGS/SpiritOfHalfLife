@@ -1220,6 +1220,8 @@ void CNihilanth::CommandUse( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_
 		break;
 	case USE_TOGGLE:
 		break;
+	default:
+		break;
 	}
 }
 

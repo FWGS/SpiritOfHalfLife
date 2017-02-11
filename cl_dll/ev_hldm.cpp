@@ -1060,7 +1060,6 @@ void EV_FireGauss( event_args_t *args )
 					if ( !beam_tr.allsolid )
 					{
 						vec3_t delta;
-						float n;
 
 						// trace backwards to find exit point
 
@@ -1397,7 +1396,7 @@ void EV_EgonFire( event_args_t *args )
 
 	if ( iStartup == 1 && EV_IsLocal( idx ) && !pBeam && !pBeam2 && cl_lw->value ) //Adrian: Added the cl_lw check for those lital people that hate weapon prediction.
 	{
-		vec3_t vecSrc, vecEnd, origin, angles, forward, right, up;
+		vec3_t vecSrc, vecEnd, angles, forward, right, up;
 		pmtrace_t tr;
 
 		cl_entity_t *pl = gEngfuncs.GetEntityByIndex( idx );

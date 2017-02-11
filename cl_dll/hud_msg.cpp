@@ -15,7 +15,7 @@
 //
 //  hud_msg.cpp
 //
-#include "mp3.h" //AJH - Killar MP3
+//#include "mp3.h" //AJH - Killar MP3
 #include "hud.h"
 #include "cl_util.h"
 #include "parsemsg.h"
@@ -34,8 +34,9 @@ float g_fFogFadeFraction;
 extern BEAM *pBeam;
 extern BEAM *pBeam2;
 extern rain_properties Rain;
-extern float g_clampMinYaw, g_clampMaxYaw, g_clampMinPitch, g_clampMaxPitch;
-extern float g_clampTurnSpeed;
+float g_clampMinYaw, g_clampMaxYaw, g_clampMinPitch, g_clampMaxPitch;
+float g_clampTurnSpeed;
+int g_iInventory[MAX_ITEMS];
 
 /// USER-DEFINED SERVER MESSAGE HANDLERS
 
@@ -281,9 +282,9 @@ int CHud :: MsgFunc_Concuss( const char *pszName, int iSize, void *pbuf )
 
 int CHud :: MsgFunc_PlayMP3( const char *pszName, int iSize, void *pbuf ) //AJH -Killar MP3
 {
-	BEGIN_READ( pbuf, iSize );
+	//BEGIN_READ( pbuf, iSize );
 
-	gMP3.PlayMP3( READ_STRING() );
+	//gMP3.PlayMP3( READ_STRING() );
 
 	return 1;
 }

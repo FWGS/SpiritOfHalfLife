@@ -25,6 +25,8 @@
 #include "player.h"
 #include "gamerules.h"
 
+static int v_model, p_model, w_model;
+
 enum generic_e 
 {
 	GENERIC_IDLE1 = 0,

@@ -5,11 +5,12 @@
 // $NoKeywords: $
 //=============================================================================
 
+#if 0
 #include "hud.h"
 #include "cl_util.h"
 #include "cl_entity.h"
 #include "triangleapi.h"
-#include "vgui_TeamFortressViewport.h"
+//#include "vgui_TeamFortressViewport.h"
 
 // these are included for the math functions
 #include "com_model.h"
@@ -52,7 +53,7 @@ int CHudOverview::Draw(float flTime)
 		return 1;
 
 	// make sure we have player info
-	gViewPort->GetAllPlayersInfo();
+	//gViewPort->GetAllPlayersInfo();
 
 	// calculate player size on the overview
 	int x1, y1, x2, y2;
@@ -158,3 +159,4 @@ void CHudOverview::InitHUDData()
 //	gEngfuncs.Overview_SetDrawInset( 0 );
 }
 
+#endif
