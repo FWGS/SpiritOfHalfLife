@@ -39,7 +39,9 @@
 #define NOSERVICE
 #define NOMCX
 #define NOIME
+#define HSPRITE HSPRITE_win32
 #include "windows.h"
+#undef HSPRITE
 #ifndef min
 #define min(a,b)  (((a) < (b)) ? (a) : (b))
 #endif

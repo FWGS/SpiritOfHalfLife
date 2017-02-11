@@ -17,7 +17,7 @@
 #include "cdll_int.h"
 #include "pm_defs.h"
 #include "event_api.h"
-
+#include "string.h"
 #include "rain.h"
 
 void WaterLandingEffect(cl_drip *drip);

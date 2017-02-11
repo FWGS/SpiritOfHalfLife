@@ -26,7 +26,9 @@ Merged and given some nicer CVARs by FragBait0, tlevi@tpg.com.au
 #include "particlemgr.h"
 //End tri.cpp
 #ifdef _WIN32
+#define HSPRITE HSPRITE_win32
 #include <windows.h>
+#indef HSPRITE
 #else
 #include <SDL2/SDL_messagebox.h>
 #endif
@@ -37,11 +39,8 @@ Merged and given some nicer CVARs by FragBait0, tlevi@tpg.com.au
 #include <Cg/cgGL.h>
 #include "r_studioint.h"
 
-#ifdef _WIN32
-#define DLLEXPORT __declspec( dllexport )
-#else
-#define DLLEXPORT __attribute__((visibilty("default")))
-#endif
+#include "exportdef.h"
+
 #define GL_TEXTURE_RECTANGLENV 0x84F5
 
 // START glow (shader+lowend) -- FragBait0

@@ -27,7 +27,7 @@
 #include "hltv.h"
 
 #include <string.h>
-#define DLLEXPORT
+#include "exportdef.h"
 // Spectator Mode
 extern "C" 
 {

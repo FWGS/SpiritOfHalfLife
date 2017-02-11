@@ -9,7 +9,7 @@
 #include "cl_util.h"
 #include "camera.h"
 #include "in_defs.h"
-#define DLLEXPORT
+#include "exportdef.h"
 
 extern "C" 
 {

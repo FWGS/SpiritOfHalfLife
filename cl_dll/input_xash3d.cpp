@@ -8,7 +8,7 @@ cvar_t		*in_joystick;
 #define	PITCH	0
 #define	YAW		1
 #define	ROLL	2 
-#define DLLEXPORT
+#include "exportdef.h"
 extern "C"  void DLLEXPORT IN_ClientMoveEvent( float forwardmove, float sidemove );
 extern "C" void DLLEXPORT IN_ClientLookEvent( float relyaw, float relpitch );
 

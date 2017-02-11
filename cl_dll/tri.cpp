@@ -20,15 +20,13 @@
 #include "rain.h" 
 #include "com_model.h"
 #include "studio_util.h"
-
+#include "exportdef.h"
 //#include "glInclude.h"
-
-#define DLLEXPORT
 
 extern "C"
 {
-	void DLLEXPORT HUD_DrawNormalTriangles( void );
-	void DLLEXPORT HUD_DrawTransparentTriangles( void );
+	void EXPORT HUD_DrawNormalTriangles( void );
+	void EXPORT HUD_DrawTransparentTriangles( void );
 };
 
 	
@@ -417,7 +415,7 @@ HUD_DrawNormalTriangles
 Non-transparent triangles-- add them here
 =================
 */
-void DLLEXPORT HUD_DrawNormalTriangles( void )
+void EXPORT HUD_DrawNormalTriangles( void )
 {
 	gHUD.m_Spectator.DrawOverview();
 	
@@ -435,7 +433,7 @@ Render any triangles with transparent rendermode needs here
 */
 extern ParticleSystemManager* g_pParticleSystems; // LRC
 
-void DLLEXPORT HUD_DrawTransparentTriangles( void )
+void EXPORT HUD_DrawTransparentTriangles( void )
 {
 	BlackFog();
 

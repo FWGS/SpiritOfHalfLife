@@ -5,8 +5,9 @@
 
 #include "fmod.h"
 #include "fmod_errors.h"
+#define  HSPRITE HSPRITE_win32
 #include "windows.h"
-
+#undef HSPRITE
 class CMP3
 {
 private:
